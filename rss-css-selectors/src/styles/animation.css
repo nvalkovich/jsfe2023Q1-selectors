@@ -1,0 +1,65 @@
+.active-element {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotateElements;
+}
+
+.active-plate {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotatePlate;
+}
+
+.active-box {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotateBox;
+}
+
+@keyframes rotatePlate {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  10%,
+  30% {
+    transform: rotate(-5deg);
+  }
+
+  20%,
+  40% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes rotateElements {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  10%,
+  30% {
+    transform: rotate(-10deg);
+  }
+
+  20%,
+  40% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes rotateBox {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  10%,
+  30% {
+    transform: rotate(-2deg);
+  }
+
+  20%,
+  40% {
+    transform: rotate(2deg);
+  }
+}
