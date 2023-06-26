@@ -1,6 +1,6 @@
 import { Level } from './types/interfaces';
 
-const levels: Level[] = [
+const levelsConfig: Level[] = [
   {
     level: 1,
     task: 'Select the plate',
@@ -241,4 +241,4 @@ const levels: Level[] = [
   },
 ];
 
-export default levels;
+export default levelsConfig;

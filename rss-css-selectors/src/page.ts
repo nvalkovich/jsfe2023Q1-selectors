@@ -1,4 +1,4 @@
-import levels from './levels';
+import levelsConfig from './levelsConfig';
 
 class Page {
   public render(): void {
@@ -21,14 +21,14 @@ class Page {
     levelsList.className = 'levels__list levels-list';
     levelsContainer?.append(levelsList);
 
-    const levelsNumber: number = levels.length;
+    const levelsNumber: number = levelsConfig.length;
 
     for (let i = 0; i < levelsNumber; i += 1) {
       const levelsItem: HTMLLIElement | null = document.createElement('li');
       levelsItem.className = 'levels-list__item';
-      levelsItem.innerHTML += `Level ${levels[i].level}`;
+      levelsItem.innerHTML += `Level ${levelsConfig[i].level}`;
       levelsList.append(levelsItem);
-      levelsItem.id = `${levels[i].level}`;
+      levelsItem.id = `${levelsConfig[i].level}`;
     }
   }
 }
