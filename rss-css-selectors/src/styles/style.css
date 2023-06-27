@@ -54,7 +54,7 @@ body {
   height: 18px;
   background-size: 18px 18px;
   background-repeat: no-repeat;
-  background-image: url(../assets/apple.png);
+  background-image: url(../assets/images/apple.png);
 }
 
 .main-wrapper__task {
@@ -84,7 +84,7 @@ body {
   background-size: 200%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url(../assets/grass.jpg);
+  background-image: url(../assets/images/grass.jpg);
   border: 10px solid rgba(0, 0, 0, 0.432);
 }
 
@@ -96,7 +96,7 @@ body {
   width: 500px;
   height: 250px;
   background-size: 100%;
-  background-image: url(../assets/blanket.jpg);
+  background-image: url(../assets/images/blanket.jpg);
   box-shadow: 0.2em 0.3em 4em rgba(12, 0, 0, 0.862);
 }
 
@@ -124,7 +124,7 @@ body {
   width: 170px;
   height: 170px;
   background-size: 105%;
-  background-image: url(../assets/craft_plate.png);
+  background-image: url(../assets/images/craft_plate.png);
 }
 
 .plate[order="first"]{
@@ -149,11 +149,11 @@ body {
 }
 
 .apple {
-  background-image: url(../assets/apple.png);
+  background-image: url(../assets/images/apple.png);
 }
 
 .red {
-  background-image: url(../assets/apple_red.png);
+  background-image: url(../assets/images/apple_red.png);
 }
 
 .apple[location="plate"][level="2"] {
@@ -216,7 +216,7 @@ body {
 
 .orange {
   background-size: 110%;
-  background-image: url(../assets/orange.png);
+  background-image: url(../assets/images/orange.png);
   box-shadow: 0.3em 0.5em 2em rgb(12, 0, 0);
 }
 
@@ -236,7 +236,7 @@ body {
 
 .sliced-orange {
   background-size: 100%;
-  background-image: url(../assets/sliced-orange.png);
+  background-image: url(../assets/images/sliced-orange.png);
   box-shadow: 0.3em 0.5em 3em rgb(12, 0, 0);
 }
 
@@ -264,7 +264,7 @@ body {
   width: 50px;
   height: 50px;
   background-size: 107%;
-  background-image: url(../assets/bread.png);
+  background-image: url(../assets/images/bread.png);
   border-radius: 10%;
   box-shadow: 0.2em 0.3em 1em rgba(12, 0, 0, 0.452);
 }
@@ -295,7 +295,7 @@ body {
   width: 42px;
   height: 41px;
   background-size: 120%;
-  background-image: url(../assets/sausage.png);
+  background-image: url(../assets/images/sausage.png);
   border-radius: 72% 71% 62% 65% / 60% 72% 73% 61%;
   box-shadow: 0.2em 0.3em 3em rgb(12, 0, 0);
 }
@@ -329,12 +329,12 @@ body {
 
 .donut {
   z-index: 3;
-  background-image: url(../assets/donut.png);
+  background-image: url(../assets/images/donut.png);
 }
 
 #acing-donut {
   z-index: 5;
-  background-image: url(../assets/acing_donut.png);
+  background-image: url(../assets/images/acing_donut.png);
 }
 
 .donut[level="6"] {
@@ -403,7 +403,7 @@ body {
   width: 147px;
   height: 107px;
   background-size: 100%;
-  background-image: url(../assets/box.png);
+  background-image: url(../assets/images/box.png);
   box-shadow: 0.3em 0.5em 2em rgb(12, 0, 0);
 }
 
@@ -568,7 +568,7 @@ body {
   background-size: 20px 20px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url(../assets/check-mark-svgrepo-com.svg);
+  background-image: url(../assets/images/check-mark-svgrepo-com.svg);
 }
 
 .light-text,
