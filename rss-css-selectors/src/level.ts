@@ -1,7 +1,10 @@
 import levelsConfig from './levelsConfig';
+import Storage from './storage';
 
 class Level {
-  private currentLevel = 1;
+  private storage = new Storage();
+
+  private currentLevel = this.storage.getLevel();
 
   public render(level: number): void {
     const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
@@ -22,13 +25,12 @@ class Level {
     }
 
     this.currentLevel = level;
-    console.log('rendrerd lvl', level);
+    this.storage.setLevel(this.currentLevel);
   }
 
   public checkSelector(value: string): void {
     if (value === levelsConfig[this.currentLevel - 1].selector) {
       this.render(this.currentLevel + 1);
-      console.log(`rendered new level ${this.currentLevel}`);
       const input: HTMLInputElement | null = document.querySelector('.input-container__input');
       if (input) {
         input.value = '';

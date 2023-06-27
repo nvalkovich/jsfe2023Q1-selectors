@@ -194,8 +194,6 @@ class Page {
         this.level.render(Number(target.id));
       }
     });
-
-    this.level.render(1);
   }
 }
 
