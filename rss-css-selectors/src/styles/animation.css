@@ -1,16 +1,40 @@
-.active-element {
-  animation: 1.5s ease-in-out 0s normal none infinite running rotateElements;
+.shaking {
+  animation: shaking-motion 1.5s 0s both 1;
 }
 
-.active-plate {
-  animation: 1.5s ease-in-out 0s normal none infinite running rotatePlate;
+*[state="active"][animation="active-element"] {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotate-elements;
 }
 
-.active-box {
-  animation: 1.5s ease-in-out 0s normal none infinite running rotateBox;
+*[state="active"][animation="active-plate"] {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotate-plate;
 }
 
-@keyframes rotatePlate {
+*[state="active"][animation="active-box"] {
+  animation: 1.5s ease-in-out 0s normal none infinite running rotate-box;
+}
+
+@keyframes shaking-motion {
+  0%, 
+  20% {
+		transform: translate3d(0, 0, 0);
+	}
+	10%, 
+  14%, 
+  18%, 
+  2%, 
+  6% {
+		transform: translate3d(-2px, 0, 0);
+	}
+	12%, 
+  16%, 
+  4%, 
+  8% {
+		transform: translate3d(2px, 0, 0);
+	}
+}
+
+@keyframes rotate-plate {
   0%,
   50%,
   100% {
@@ -28,7 +52,7 @@
   }
 }
 
-@keyframes rotateElements {
+@keyframes rotate-elements {
   0%,
   50%,
   100% {
@@ -46,7 +70,7 @@
   }
 }
 
-@keyframes rotateBox {
+@keyframes rotate-box {
   0%,
   50%,
   100% {

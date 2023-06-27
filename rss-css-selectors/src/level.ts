@@ -35,11 +35,31 @@ class Level {
   }
 
   public checkSelector(value: string): void {
+    if (!value) return;
+
     if (value === levelsConfig[this.currentLevel - 1].selector) {
       this.render(this.currentLevel + 1);
       const input: HTMLInputElement | null = document.querySelector('.input-container__input');
       if (input) {
         input.value = '';
+      }
+    } else {
+      const selectedELements: NodeListOf<Element> = document.querySelectorAll(`${value}`);
+      for (let i = 0; i < selectedELements.length; i += 1) {
+        const element = selectedELements[i];
+        if (element.getAttribute('state') === 'active') {
+          element.setAttribute('state', 'unactive');
+          element.classList.add('shaking');
+          setTimeout(() => {
+            element.classList.remove('shaking');
+            element.setAttribute('state', 'active');
+          }, 500);
+        } else {
+          element.classList.add('shaking');
+          setTimeout(() => {
+            element.classList.remove('shaking');
+          }, 500);
+        }
       }
     }
   }

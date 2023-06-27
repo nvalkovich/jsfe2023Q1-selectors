@@ -101,15 +101,12 @@ body {
 }
 
 .plate,
-.red-apple,
 .apple,
 .orange,
-.sliced-orange,
 .bread,
 .sausage,
 .box,
-.donut,
-.acing-donut {
+.donut {
   cursor: pointer;
   position: absolute;
   background-position: center;
@@ -118,9 +115,7 @@ body {
 
 .plate,
 .apple,
-.red-apple,
-.orange,
-.sliced-orange{
+.orange {
   border-radius: 50%;
 }
 
@@ -144,7 +139,7 @@ body {
   box-shadow: 0.3em 0.2em 3em rgba(12, 0, 0, 0.375);
 }
 
-.red-apple,
+.red,
 .apple {
   z-index: 3;
   width: 50px;
@@ -157,23 +152,28 @@ body {
   background-image: url(../assets/apple.png);
 }
 
-.red-apple {
+.red {
   background-image: url(../assets/apple_red.png);
 }
 
-.apple[location="plate"] {
+.apple[location="plate"][level="2"] {
   left: 35%;
   top: 35%;
 }
 
-.red-apple[location="plate"] {
-  left: 20%;
-  top: 25%;
+.apple[location="plate"][level="3"] {
+  left: 50%;
+  top: 40%;
 }
 
-.red-apple[size="small"] {
+.red[size="small"] {
   width: 40px;
   height: 40px;
+}
+
+.red[location="plate"][level="3"] {
+  left: 20%;
+  top: 25%;
 }
 
 .apple[location="blanket"] {
@@ -184,15 +184,10 @@ body {
   box-shadow: 0.2em 0.3em 1em rgb(12, 0, 0);
 }
 
-.red-apple[size="small"][location="blanket"] {
+.red[size="small"][location="blanket"] {
   left: 59%;
   top: 15%;
   box-shadow: 0.2em 0.3em 2em rgb(12, 0, 0);
-}
-
-.apple[location="plate"][level="3"] {
-  left: 50%;
-  top: 40%;
 }
 
 .apple[location="plate"][level="5"],
@@ -201,13 +196,13 @@ body {
   top: 25%;
 }
 
-.red-apple[level="5"],
-.red-apple[level="6"] {
+.red[level="5"],
+.red[level="6"] {
   left: 42%;
   top: 55%;
 }
 
-.red-apple[level="7"] {
+.red[level="7"] {
   left: 37%;
   top: 55%;
 }
@@ -258,7 +253,7 @@ body {
 
 .plate,
 .apple,
-.red-apple,
+.red,
 .orange,
 .sliced-orange{
   border-radius: 50%;
@@ -284,8 +279,8 @@ body {
   top: 35%;
 }
 
-.plate[order="second"]>.bread[level="8"] {
-  transform: rotate(120deg);
+.plate[order="second"]>.bread[level="8"],
+.plate[order="second"]>.shaking[level="8"]{
   left: 30%;
   top: 37%;
 }
@@ -337,7 +332,7 @@ body {
   background-image: url(../assets/donut.png);
 }
 
-.acing-donut {
+#acing-donut {
   z-index: 5;
   background-image: url(../assets/acing_donut.png);
 }
@@ -351,29 +346,25 @@ body {
 .donut[location="box"][level="7"][order="first"] {
   left: 15%;
   top: 31%;
-  transform: rotate(130deg);
 }
 
 .donut[location="box"][level="7"][order="second"] {
   left: 35%;
   top: 31%;
-  transform: rotate(100deg);
 }
 
 .donut[location="box"][level="7"][order="third"] {
   left: 55%;
   top: 31%;
-  transform: rotate(30deg);
 }
 
 .donut[location="plate"][level="7"],
-.acing-donut[location="plate"][level="9"] {
+#acing-donut[location="plate"][level="9"] {
   width: 45px;
   height: 45px;
   z-index: 3;
   left: 20%;
   top: 31%;
-  transform: rotate(180deg);
   background-color: rgba(12, 0, 0, 0.358);
 }
 
@@ -386,29 +377,25 @@ body {
 .donut[location="box"][level="10"][order="first"] {
   left: 13%;
   top: 31%;
-  transform: rotate(130deg);
 }
 
 .donut[location="box"][level="9"][order="second"],
 .donut[location="box"][level="10"][order="second"] {
   left: 28%;
   top: 31%;
-  transform: rotate(100deg);
 }
 
-.acing-donut[location="box"][level="9"][order="third"],
+#acing-donut[location="box"][level="9"][order="third"],
 .donut[location="box"][level="10"][order="third"] {
   z-index: 3;
   left: 43%;
   top: 31%;
-  transform: rotate(30deg);
 }
 
 .donut[location="box"][level="9"][order="fourth"],
 .donut[location="box"][level="10"][order="fourth"] {
   left: 58%;
   top: 31%;
-  transform: rotate(0deg);
 }
 
 .box {

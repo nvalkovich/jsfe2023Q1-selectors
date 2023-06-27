@@ -189,6 +189,7 @@ class Page {
     });
 
     levelsList.addEventListener('click', (e: Event): void => {
+      input.value = '';
       const { target } = e;
       if (
         target instanceof HTMLElement && target.classList.contains('levels-list__item')
