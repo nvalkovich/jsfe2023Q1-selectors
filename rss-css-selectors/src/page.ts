@@ -165,7 +165,7 @@ class Page {
       levelsItem.className = 'levels-list__item';
       levelsItem.innerHTML += `Level ${levelsConfig[i].level}`;
       levelsList.append(levelsItem);
-      levelsItem.id = `${levelsConfig[i].level}`;
+      levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
     inputBtn.addEventListener('click', (e: Event): void => {
@@ -190,8 +190,14 @@ class Page {
 
     levelsList.addEventListener('click', (e: Event): void => {
       const { target } = e;
-      if (target instanceof HTMLElement && target.classList.contains('levels-list__item')) {
-        this.level.render(Number(target.id));
+      if (
+        target instanceof HTMLElement && target.classList.contains('levels-list__item')
+      ) {
+        const currentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
+        if (currentlistItem) {
+          currentlistItem.classList.remove('current-level');
+        }
+        this.level.render(Number(target.getAttribute('level')));
       }
     });
   }

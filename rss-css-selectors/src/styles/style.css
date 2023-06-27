@@ -584,6 +584,7 @@ body {
   background-image: url(../assets/check-mark-svgrepo-com.svg);
 }
 
-.light-text {
+.light-text,
+.current-level {
   color: rgba(255, 255, 255, .6);
 }

@@ -12,6 +12,7 @@ class Level {
       const taskText = levelsConfig[level - 1].task;
       taskTitle.innerHTML = `${taskText}`;
     }
+
     const picnic: HTMLDivElement | null = document.querySelector('.picnic');
     if (picnic) {
       const htmlMarkup = levelsConfig[level - 1].html;
@@ -22,6 +23,11 @@ class Level {
     if (markup) {
       const htmlMarkup = levelsConfig[level - 1].markup;
       markup.innerHTML = `${htmlMarkup}`;
+    }
+
+    const currentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+    if (currentlistItem) {
+      currentlistItem.classList.add('current-level');
     }
 
     this.currentLevel = level;
@@ -35,8 +41,6 @@ class Level {
       if (input) {
         input.value = '';
       }
-    } else {
-      console.log('invalid');
     }
   }
 
