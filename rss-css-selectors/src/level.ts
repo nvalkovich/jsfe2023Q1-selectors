@@ -1,5 +1,9 @@
+import hljs from 'highlight.js/lib/core';
+import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import Storage from './storage';
+
+hljs.registerLanguage('xml', xml);
 
 class Level {
   private storage = new Storage();
@@ -22,7 +26,14 @@ class Level {
     const markup: HTMLDivElement | null = document.querySelector('.markup');
     if (markup) {
       const htmlMarkup = levelsConfig[level - 1].markup;
-      markup.innerHTML = `${htmlMarkup}`;
+      const highlightedCode = hljs.highlight(
+        `<div class="picnic-blanket">${htmlMarkup}
+</div>`,
+        {
+          language: 'xml',
+        },
+      ).value;
+      markup.innerHTML = highlightedCode;
     }
 
     const currentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);

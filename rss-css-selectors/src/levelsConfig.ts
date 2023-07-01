@@ -8,9 +8,8 @@ const levelsConfig: Level[] = [
     <plate class="plate" animation="active-plate" state="active" order="first"></plate>
     </div>`,
     selector: 'plate',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate/&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate/>`,
   },
   {
     level: 2,
@@ -22,12 +21,11 @@ const levelsConfig: Level[] = [
     <apple class="apple" location="blanket" level="2" ></div>
     </apple>`,
     selector: 'plate>apple',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;apple/&gt;
-  &lt;/plate&gt;
-  &lt;apple/&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <apple/>
+  </plate>
+  <apple/>`,
   },
   {
     level: 3,
@@ -41,14 +39,13 @@ const levelsConfig: Level[] = [
     <apple class="apple red" animation="active-element" state="active" size="small" location="blanket" level="3"></apple>
     </div>`,
     selector: '.red',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;apple class="red"/&gt;
-    &lt;apple/&gt;
-  &lt;/plate&gt;
-  &lt;apple/&gt;
-  &lt;apple class="red"/&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <apple class="red"/>
+    <apple/>
+  </plate>
+  <apple/>
+  <apple class="red"/>`,
   },
   {
     level: 4,
@@ -60,12 +57,11 @@ const levelsConfig: Level[] = [
     </plate>
     </div>`,
     selector: '#sliced-orange',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;orange/&gt;
-    &lt;orange id="sliced-orange"/&gt;
-  &lt;/plate&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <orange/>
+    <orange id="sliced-orange"/>
+  </plate>`,
   },
   {
     level: 5,
@@ -79,14 +75,13 @@ const levelsConfig: Level[] = [
     <apple class="apple" location="blanket" level="5" ></apple>
     </div>`,
     selector: 'plate>*',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;apple/&gt;
-    &lt;orange/&gt;
-    &lt;apple class="red"/&gt;
-  &lt;/plate&gt;
-  &lt;/apple&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <apple/>
+    <orange/>
+    <apple class="red"/>
+  </plate>
+  </apple>`,
   },
   {
     level: 6,
@@ -103,17 +98,16 @@ const levelsConfig: Level[] = [
     </plate>
     </div>`,
     selector: 'plate[content="baking"]',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;apple/&gt;
-    &lt;orange/&gt;
-    &lt;apple class="red"/&gt;
-  &lt;/plate&gt;
-  &lt;plate content="baking"&gt;
-    &lt;bread/&gt;
-    &lt;donut/&gt;
-  &lt;/plate&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <apple/>
+    <orange/>
+    <apple class="red"/>
+  </plate>
+  <plate content="baking">
+    <bread/>
+    <donut/>
+  </plate>`,
   },
   {
     level: 7,
@@ -131,18 +125,17 @@ const levelsConfig: Level[] = [
     </box>
     </div>`,
     selector: 'box donut:nth-child(2)',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;donut/&gt;
-    &lt;orange"/&gt;
-    &lt;apple class="red"/&gt;
-  &lt;/plate&gt;
-  &lt;box&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-  &lt;/box&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <donut/>
+    <orange>
+    <apple class="red"/>
+  </plate>
+  <box>
+    <donut/>
+    <donut/>
+    <donut/>
+  </box>`,
   },
   {
     level: 8,
@@ -162,20 +155,19 @@ const levelsConfig: Level[] = [
     </plate>
     </div>`,
     selector: 'plate:first-child>bread>sausage',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;bread&gt;
-      &lt;sausage/&gt;
-    &lt;/bread&gt;
-  &lt;/plate&gt;
-  &lt;plate&gt;
-    &lt;sausage/&gt;
-    &lt;bread&gt;
-    &lt;sausage/&gt;
-    &lt;/bread&gt;
-    &lt;sausage/&gt;
-  &lt;/plate&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <bread>
+      <sausage/>
+    </bread>
+  </plate>
+  <plate>
+    <sausage/>
+    <bread>
+    <sausage/>
+    </bread>
+    <sausage/>
+  </plate>`,
   },
   {
     level: 9,
@@ -194,19 +186,18 @@ const levelsConfig: Level[] = [
     </box>
     </div>`,
     selector: 'box donut:not(#acing-donut)',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;plate&gt;
-    &lt;donut/&gt;
-    &lt;orange id="sliced-orange"/&gt;
-    &lt;donut/&gt;
-  &lt;/plate&gt;
-  &lt;box&gt;
-    &lt;donut/&gt;
-    &lt;donut id="acing-donut"/&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-  &lt;/box&gt;
-&lt;/div&gt;`,
+    markup: `
+  <plate>
+    <donut/>
+    <orange id="sliced-orange"/>
+    <donut/>
+  </plate>
+  <box>
+    <donut/>
+    <donut id="acing-donut"/>
+    <donut/>
+    <donut/>
+  </box>`,
   },
   {
     level: 10,
@@ -225,20 +216,19 @@ const levelsConfig: Level[] = [
     </box>
     </div>`,
     selector: 'box:has(.sandwitch)',
-    markup: `&lt;div class="picnic-blanket"&gt;
-  &lt;box&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-    &lt;donut/&gt;
-  &lt;/box&gt;
-  &lt;box&gt;
-    &lt;donut/&gt;
-    &lt;bread class="sandwitch"&gt;
-      &lt;sausage/&gt;
-    &lt;/bread&gt;
-  &lt;/box&gt;
-&lt;/div&gt;`,
+    markup: `
+  <box>
+    <donut/>
+    <donut/>
+    <donut/>
+    <donut/>
+  </box>
+  <box>
+    <donut/>
+    <bread class="sandwitch">
+      <sausage/>
+    </bread>
+  </box>`,
   },
 ];
 

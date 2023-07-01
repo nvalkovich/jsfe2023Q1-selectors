@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+pre {
+  margin: 0;
+}
+
 body {
   display: flex;
   flex-direction: row;
@@ -459,6 +463,10 @@ body {
   color: #666;
   background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
+}
+
+.html-view-field {
+ background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
 .line-numbers {

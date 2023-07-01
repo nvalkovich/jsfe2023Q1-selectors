@@ -20,6 +20,7 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-webpack-plugin": "^4.0.1",
+    "highlight.js": "^11.8.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "ts-loader": "^9.4.3",
