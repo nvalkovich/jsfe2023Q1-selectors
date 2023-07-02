@@ -118,7 +118,7 @@ class Page {
     htmlViewField.className = 'code-content__code html-view-field';
     htmlViewerContent.append(htmlViewField);
 
-    const markup: HTMLPreElement = document.createElement('pre');
+    const markup: HTMLDivElement = document.createElement('div');
     markup.className = 'markup';
     htmlViewField.append(markup);
 

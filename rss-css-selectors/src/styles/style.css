@@ -131,7 +131,7 @@ body {
   background-image: url(../assets/images/craft_plate.png);
 }
 
-.plate[order="first"]{
+.plate[order="first"] {
   left: 14%;
   top: 15%;
   box-shadow: 0.2em 0.3em 3em rgb(12, 0, 0);
@@ -259,7 +259,7 @@ body {
 .apple,
 .red,
 .orange,
-.sliced-orange{
+.sliced-orange {
   border-radius: 50%;
 }
 
@@ -284,7 +284,7 @@ body {
 }
 
 .plate[order="second"]>.bread[level="8"],
-.plate[order="second"]>.shaking[level="8"]{
+.plate[order="second"]>.shaking[level="8"] {
   left: 30%;
   top: 37%;
 }
@@ -466,7 +466,7 @@ body {
 }
 
 .html-view-field {
- background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
 .line-numbers {

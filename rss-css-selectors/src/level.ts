@@ -2,11 +2,14 @@ import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import Storage from './storage';
+import { Markup } from './types/interfaces';
 
 hljs.registerLanguage('xml', xml);
 
 class Level {
   private storage = new Storage();
+
+  private nesting = 0;
 
   private currentLevel = this.storage.getLevel();
 
@@ -18,22 +21,16 @@ class Level {
     }
 
     const picnic: HTMLDivElement | null = document.querySelector('.picnic');
-    if (picnic) {
-      const htmlMarkup = levelsConfig[level - 1].html;
-      picnic.innerHTML = `${htmlMarkup}`;
+    const markup: HTMLDivElement | null = document.querySelector('.markup');
+    if (picnic && markup) {
+      picnic.innerHTML = '';
+      markup.innerHTML = '';
     }
 
-    const markup: HTMLDivElement | null = document.querySelector('.markup');
+    this.createHTML(levelsConfig[level - 1].html, picnic);
+
     if (markup) {
-      const htmlMarkup = levelsConfig[level - 1].markup;
-      const highlightedCode = hljs.highlight(
-        `<div class="picnic-blanket">${htmlMarkup}
-</div>`,
-        {
-          language: 'xml',
-        },
-      ).value;
-      markup.innerHTML = highlightedCode;
+      this.createMarkup(levelsConfig[level - 1].html, markup);
     }
 
     const currentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
@@ -72,6 +69,94 @@ class Level {
           }, 500);
         }
       }
+    }
+  }
+
+  private createHTML(data: Markup, parentElement: HTMLElement | null): void {
+    const config = Object.keys(data);
+    const element = document.createElement(`${data.element}`);
+    if (config.includes('className')) {
+      element.className = `${data.className}`;
+    }
+    if (config.includes('id')) {
+      element.id = `${data.id}`;
+    }
+    if (config.includes('attributes')) {
+      const { attributes } = data;
+      attributes?.forEach((attr) => {
+        element.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+      });
+    }
+
+    parentElement?.append(element);
+
+    if (data.children !== null) {
+      data.children?.forEach((child) => {
+        this.createHTML(child, element);
+      });
+    }
+  }
+
+  private addMarkupItem(
+    content:string,
+    parent: HTMLElement,
+    hasChildren: boolean,
+    isClosed: boolean,
+  ): void {
+    if (isClosed) {
+      this.nesting = this.nesting - 2 >= 0 ? this.nesting - 2 : 0;
+    }
+
+    const div = document.createElement('div');
+    parent.append(div);
+    const pre = document.createElement('pre');
+    div?.append(pre);
+    const code = document.createElement('code');
+    pre.append(code);
+
+    code.innerHTML = hljs.highlight(
+      `${' '.repeat(this.nesting)}${content}`,
+      {
+        language: 'xml',
+      },
+    ).value;
+
+    if ((hasChildren)) {
+      this.nesting += 2;
+    }
+  }
+
+  private createMarkup(data: Markup, parent: HTMLElement): void {
+    const config = Object.keys(data);
+
+    let content = '';
+    content += `<${data.element}`;
+    if (config.includes('toWiev')) {
+      if (data.toWiev?.selector === 'className') {
+        content += ` class="${data.toWiev?.value}"`;
+      }
+      if (data.toWiev?.selector === 'id') {
+        content += ` id="${data.toWiev?.value}"`;
+      }
+      if (data.toWiev?.selector === 'attributes') {
+        content += ` ${data.toWiev?.value}`;
+      }
+    }
+
+    if (data.children) {
+      content += '>';
+      this.addMarkupItem(content, parent, Boolean(data.children), false);
+      data.children?.forEach((child) => {
+        this.createMarkup(child, parent);
+      });
+    } else if (!data.children) {
+      content += '/>';
+      this.addMarkupItem(content, parent, Boolean(data.children), false);
+    }
+
+    if (data.children) {
+      const closedContent = `</${data.element}>`;
+      this.addMarkupItem(closedContent, parent, false, true);
     }
   }
 
