@@ -1,5 +1,9 @@
+import hljs from 'highlight.js/lib/core';
+import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
+
+hljs.registerLanguage('css', css);
 
 class Page {
   private readonly level: Level;
@@ -74,20 +78,35 @@ class Page {
     cssEditField.className = 'code-content__code css-edit-field';
     cssEditorContent.append(cssEditField);
 
-    const inputContainer: HTMLDivElement = document.createElement('div');
-    inputContainer.className = 'css-edit-field__input-container input-container';
-    cssEditField.append(inputContainer);
+    const textareaField: HTMLDivElement = document.createElement('div');
+    textareaField.className = 'css-edit-field__textarea-field textarea-field ';
+    cssEditField.append(textareaField);
 
-    const input: HTMLInputElement = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Type in a CSS selector';
-    input.className = 'input-container__input';
-    inputContainer.append(input);
+    const textareaContainer: HTMLDivElement = document.createElement('div');
+    textareaContainer.className = 'textarea-field__textarea-container textarea-container';
+    textareaField.append(textareaContainer);
 
-    const inputBtn: HTMLDivElement = document.createElement('div');
-    inputBtn.innerHTML = 'Enter';
-    inputBtn.className = 'input-container__btn';
-    inputContainer.append(inputBtn);
+    const textarea: HTMLTextAreaElement = document.createElement('textarea');
+    textarea.className = 'textarea-container__textarea textarea';
+    textareaContainer.append(textarea);
+
+    const textareaMarkup: HTMLDivElement = document.createElement('div');
+    textareaMarkup.className = 'textarea-container__textarea-markup textarea-markup';
+    textareaContainer.append(textareaMarkup);
+
+    const textareaPre = document.createElement('pre');
+    textareaPre.className = 'textarea-markup__pre';
+    textareaMarkup.append(textareaPre);
+
+    const textareaCode = document.createElement('code');
+    textareaCode.className = 'textarea-markup__code';
+    textareaCode.innerHTML = 'Type in a CSS selector';
+    textareaPre.append(textareaCode);
+
+    const textareaBtn: HTMLDivElement = document.createElement('div');
+    textareaBtn.innerHTML = 'Enter';
+    textareaBtn.className = 'textarea-field__btn';
+    textareaField.append(textareaBtn);
 
     const htmlViewer: HTMLDivElement = document.createElement('div');
     htmlViewer.className = 'code-container__item html-viewer';
@@ -168,21 +187,63 @@ class Page {
       levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
-    inputBtn.addEventListener('click', (e: Event): void => {
+    textareaBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;
       if (target instanceof HTMLElement) {
-        this.level.checkSelector(input.value);
+        this.level.checkSelector(textarea.value);
       }
     });
 
-    input.addEventListener('keyup', (e: KeyboardEvent): void => {
-      if (e.key === 'Enter') {
-        this.level.checkSelector(input.value);
+    const createCssMarkup = ():void => {
+      textareaCode.innerHTML = '';
+      textareaCode.innerHTML = hljs.highlight(
+        `${textarea.value}`,
+        {
+          language: 'css',
+        },
+      ).value;
+    };
+
+    textarea.addEventListener('input', ():void => {
+      createCssMarkup();
+      if (textareaCode.innerHTML.length === 0) {
+        textareaCode.innerHTML = 'Type in a CSS selector';
       }
     });
+
+    textarea.addEventListener('keydown', (e: KeyboardEvent): void => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.level.checkSelector(textarea.value);
+        console.log(textarea.value);
+      }
+    });
+
+    const typeSelector = (value: string):void => {
+      const splittedValue = value.split('');
+      let i = 0;
+      let result = '';
+      const addChar = setInterval(() => {
+        if (i >= splittedValue.length) {
+          clearInterval(addChar);
+        } else {
+          result += `${splittedValue[i]}`;
+          textareaCode.innerHTML = hljs.highlight(
+            `${result}`,
+            {
+              language: 'css',
+            },
+          ).value;
+          i += 1;
+        }
+        textarea.value = result;
+      }, 100);
+    };
 
     helpBtn.addEventListener('click', (): void => {
-      input.value = this.level.getSelector();
+      textarea.value = this.level.getSelector();
+      typeSelector(textarea.value);
+      console.log(textarea.value);
     });
 
     const createSelector = (element: HTMLElement): string => {
@@ -261,7 +322,8 @@ class Page {
     });
 
     levelsList.addEventListener('click', (e: Event): void => {
-      input.value = '';
+      textarea.value = '';
+      textareaCode.innerHTML = 'Type in a CSS selector';
       const { target } = e;
       if (
         target instanceof HTMLElement && target.classList.contains('levels-list__item')

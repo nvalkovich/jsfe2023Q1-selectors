@@ -1,5 +1,6 @@
 export interface Level {
   level: number;
+  goalElementsNumber: number
   task: string;
   selector: string,
   html: Markup;

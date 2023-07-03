@@ -3,7 +3,7 @@ import './styles/style.css';
 import Page from './page';
 import Level from './level';
 import Storage from './storage';
-import 'highlight.js/styles/a11y-dark.css';
+import 'highlight.js/styles/stackoverflow-dark.css';
 
 const page = new Page();
 const level = new Level();

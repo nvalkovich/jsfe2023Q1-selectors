@@ -33,10 +33,11 @@ class Level {
       this.createMarkup(levelsConfig[level - 1].html, markup);
     }
 
-    const currentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
-    if (currentlistItem) {
-      currentlistItem.classList.add('current-level');
-    }
+    const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
+    oldCurrentlistItem?.classList.remove('current-level');
+
+    const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+    newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
     this.storage.setLevel(this.currentLevel);
@@ -44,31 +45,49 @@ class Level {
 
   public checkSelector(value: string): void {
     if (!value) return;
-
-    if (value === levelsConfig[this.currentLevel - 1].selector) {
-      this.render(this.currentLevel + 1);
-      const input: HTMLInputElement | null = document.querySelector('.input-container__input');
-      if (input) {
-        input.value = '';
-      }
-    } else {
-      const selectedELements: NodeListOf<Element> = document.querySelectorAll(`${value}`);
+    const selectedELements: NodeListOf<Element> = document.querySelectorAll(`${value}`);
+    const codeContainer: HTMLElement | null = document.querySelector('.code-container');
+    // debugger;
+    if (selectedELements.length > 0) {
+      const activeELements = [];
       for (let i = 0; i < selectedELements.length; i += 1) {
         const element = selectedELements[i];
-        if (element.getAttribute('state') === 'active') {
+        if (element.hasAttribute('state')
+          && activeELements.length !== levelsConfig[this.currentLevel - 1].goalElementsNumber) {
           element.setAttribute('state', 'unactive');
           element.classList.add('shaking');
           setTimeout(() => {
             element.classList.remove('shaking');
             element.setAttribute('state', 'active');
-          }, 500);
-        } else {
+          }, 300);
+          activeELements.push(element);
+        } else if (!element.hasAttribute('state')
+          && activeELements.length !== levelsConfig[this.currentLevel - 1].goalElementsNumber) {
           element.classList.add('shaking');
           setTimeout(() => {
             element.classList.remove('shaking');
-          }, 500);
+          }, 300);
         }
       }
+      if ((activeELements.length === selectedELements.length
+          && selectedELements.length === levelsConfig[this.currentLevel - 1].goalElementsNumber)
+          || value === levelsConfig[this.currentLevel - 1].selector) {
+        activeELements.forEach((el: Element) => {
+          el.classList.add('goal');
+          setTimeout(() => {
+            el.classList.remove('goal');
+          }, 300);
+        });
+        this.currentLevel += 1;
+        setTimeout(() => {
+          this.render(this.currentLevel);
+        }, 700);
+      }
+    } else {
+      codeContainer?.classList.add('shaking');
+      setTimeout(() => {
+        codeContainer?.classList.remove('shaking');
+      }, 300);
     }
   }
 
@@ -105,7 +124,7 @@ class Level {
   }
 
   private addMarkupItem(
-    content:string,
+    content: string,
     parent: HTMLElement,
     hasChildren: boolean,
     isClosed: boolean,

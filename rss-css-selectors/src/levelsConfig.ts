@@ -3,6 +3,7 @@ import { Level } from './types/interfaces';
 const levelsConfig: Level[] = [
   {
     level: 1,
+    goalElementsNumber: 1,
     task: 'Select the plate',
     selector: 'plate',
     html: {
@@ -29,6 +30,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 2,
+    goalElementsNumber: 1,
     task: 'Select the apple on a plate',
     selector: 'plate>apple',
     html: {
@@ -64,6 +66,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 3,
+    goalElementsNumber: 2,
     task: 'Select red apples',
     selector: '.red',
     html: {
@@ -148,6 +151,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 4,
+    goalElementsNumber: 1,
     task: 'Select the sliced orange',
     selector: '#sliced-orange',
     html: {
@@ -175,6 +179,7 @@ const levelsConfig: Level[] = [
         },
         {
           element: 'orange',
+          id: 'sliced-orange',
           className: 'orange sliced-orange',
           toWiev: { selector: 'className', value: 'sliced-orange' },
           attributes: [
@@ -191,6 +196,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 5,
+    goalElementsNumber: 3,
     task: 'Select all on a plate',
     selector: 'plate>*',
     html: {
@@ -258,6 +264,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 6,
+    goalElementsNumber: 1,
     task: 'Select the plate of baked goods',
     selector: 'plate[content="baking"]',
     html: {
@@ -339,6 +346,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 7,
+    goalElementsNumber: 1,
     task: 'Select the second donut in the box',
     selector: 'box donut:nth-child(2)',
     html: {
@@ -437,8 +445,9 @@ const levelsConfig: Level[] = [
   },
   {
     level: 8,
+    goalElementsNumber: 1,
     task: 'Select the sausage on the first plate',
-    selector: 'plate:first-child>bread>sausage',
+    selector: 'plate:first-child > bread > sausage',
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -524,6 +533,7 @@ const levelsConfig: Level[] = [
 
   {
     level: 9,
+    goalElementsNumber: 3,
     task: 'Select all donuts in a box without icing',
     selector: 'box donut:not(#acing-donut)',
     html: {
@@ -646,6 +656,7 @@ const levelsConfig: Level[] = [
   },
   {
     level: 10,
+    goalElementsNumber: 1,
     task: 'Select the box that has a sandwitch',
     selector: 'box:has(.sandwitch)',
     html: {

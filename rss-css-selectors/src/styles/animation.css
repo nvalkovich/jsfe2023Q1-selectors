@@ -1,5 +1,9 @@
 .shaking {
-  animation: shaking-motion 1.5s 0s both 1;
+  animation: 1.5s 0s both shaking-motion;
+}
+
+.goal {
+  animation: 2s ease goal ;
 }
 
 *[state="active"][animation="active-element"] {
@@ -32,6 +36,20 @@
   8% {
 		transform: translate3d(2px, 0, 0);
 	}
+}
+
+@keyframes goal {
+  0%   { 
+    transform: scale(1,1) ; }
+  10%  { 
+    transform: scale(1.2) ; }
+  30%  { 
+    transform: scale(.9, 1); }
+  50%  { 
+    transform: scale(1,0)    }
+  100% {
+    transform: scale(1,0)  
+  }
 }
 
 @keyframes rotate-plate {
