@@ -18,45 +18,83 @@ class Level {
   private passedLevelsArray: number[] = this.passedLevels;
 
   public render(level: number): void {
-    if (this.storage.getPassedLevels().length >= levelsConfig.length) {
-      alert('win');
-      this.storage.setPassedLevels([]);
-    } else {
-      const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
-      const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
+    const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
+    const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
 
-      if (textarea && textareaCode) {
-        textarea.value = '';
-        textareaCode.innerHTML = 'Type in a CSS selector';
-      }
+    if (textarea && textareaCode) {
+      textarea.value = '';
+      textareaCode.innerHTML = 'Type in a CSS selector';
+    }
 
-      const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
-      if (taskTitle) {
-        const taskText = levelsConfig[level - 1].task;
-        taskTitle.innerHTML = `${taskText}`;
-      }
+    const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
+    if (taskTitle) {
+      const taskText = levelsConfig[level - 1].task;
+      taskTitle.innerHTML = `${taskText}`;
+    }
 
-      const picnic: HTMLDivElement | null = document.querySelector('.picnic');
-      const markup: HTMLDivElement | null = document.querySelector('.markup');
-      if (picnic && markup) {
-        picnic.innerHTML = '';
-        markup.innerHTML = '';
-      }
+    const picnic: HTMLDivElement | null = document.querySelector('.picnic');
+    const markup: HTMLDivElement | null = document.querySelector('.markup');
+    if (picnic && markup) {
+      picnic.innerHTML = '';
+      markup.innerHTML = '';
+    }
 
-      this.createHTML(levelsConfig[level - 1].html, picnic);
+    this.createHTML(levelsConfig[level - 1].html, picnic);
 
-      if (markup) {
-        this.createMarkup(levelsConfig[level - 1].html, markup);
-      }
+    if (markup) {
+      this.createMarkup(levelsConfig[level - 1].html, markup);
+    }
 
-      const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
-      oldCurrentlistItem?.classList.remove('current-level');
+    const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
+    oldCurrentlistItem?.classList.remove('current-level');
 
-      const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
-      newCurrentlistItem?.classList.add('current-level');
+    const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+    newCurrentlistItem?.classList.add('current-level');
 
-      this.currentLevel = level;
-      this.storage.setLevel(this.currentLevel);
+    this.currentLevel = level;
+    this.storage.setLevel(this.currentLevel);
+  }
+
+  public win():void {
+    const popupWrapper = document.createElement('div');
+    popupWrapper.className = 'popup-wrapper popup-wrapper_active';
+    document.body.append(popupWrapper);
+
+    const popupContainer = document.createElement('div');
+    popupContainer.className = 'popup-container';
+    popupWrapper.append(popupContainer);
+
+    const popupContent = document.createElement('div');
+    popupContent.className = 'popup-container__content popup-content';
+    popupContainer.append(popupContent);
+
+    const popupCongratulations = document.createElement('h3');
+    popupCongratulations.className = 'popup-content__congratulations';
+    popupCongratulations.textContent = 'Congratulations!';
+    popupContent.append(popupCongratulations);
+
+    const popupMessage = document.createElement('h3');
+    popupMessage.className = 'popup-content__message';
+    popupMessage.textContent = 'You have found all selectors';
+    popupContent.append(popupMessage);
+
+    const popupBtn = document.createElement('button');
+    popupBtn.className = 'popup-content__btn';
+    popupContent.append(popupBtn);
+    popupBtn.innerText = 'Train again';
+
+    if (popupBtn) {
+      popupBtn.addEventListener('click', (): void => {
+        console.log('pop');
+        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
+        passedLevelsListItems.forEach((listItem) => {
+          listItem.classList.remove('passed-level');
+        });
+
+        this.storage.setPassedLevels([]);
+        this.render(1);
+        popupWrapper.classList.remove('popup-wrapper_active');
+      });
     }
   }
 
@@ -64,7 +102,7 @@ class Level {
     if (!value) return;
     const selectedELements: NodeListOf<Element> = document.querySelectorAll(`${value}`);
     const codeContainer: HTMLElement | null = document.querySelector('.code-container');
-    // debugger;
+
     if (selectedELements.length > 0) {
       const activeELements = [];
       for (let i = 0; i < selectedELements.length; i += 1) {
@@ -102,9 +140,13 @@ class Level {
           this.passedLevelsArray.push(this.currentLevel);
           this.storage.setPassedLevels(this.passedLevelsArray);
           this.currentLevel += 1;
-          setTimeout(() => {
-            this.render(this.currentLevel);
-          }, 700);
+          if (this.storage.getPassedLevels().length < levelsConfig.length) {
+            setTimeout(() => {
+              this.render(this.currentLevel);
+            }, 700);
+          } else {
+            this.win();
+          }
         }
       }
     } else {

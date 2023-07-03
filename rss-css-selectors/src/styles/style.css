@@ -67,7 +67,8 @@ body {
 }
 
 .main-wrapper__btn-help,
-.levels__btn {
+.levels__btn,
+.popup-content__btn {
   font-size: 17px;
   background: rgba(0, 0, 0, .2);
   border-radius: 15px;
@@ -76,13 +77,26 @@ body {
   transition: 0.3s;
 }
 
+.popup-content__btn {
+  margin: 25px 0px;
+  cursor: pointer;
+  font-size: 20px;
+  width: 150px;
+  color: #666;
+  height: 40px;
+  background: #4140407a;
+  color: rgba(255, 255, 255, 0.267);
+  border: none;
+}
+
 .levels__btn {
   width: 70px;
   margin: 0 auto;
 }
 
 .main-wrapper__btn-help:hover,
-.levels__btn:hover {
+.levels__btn:hover,
+.popup-content__btn:hover{
   color: rgba(255, 255, 255, .6);
   background: rgba(18, 18, 18, 0.666);
 }
@@ -650,4 +664,56 @@ body {
 
 .selected-markup span{
   color: rgba(255, 255, 255, 1);
+}
+
+.popup-wrapper {
+  display: none;
+}
+
+.popup-wrapper_active {
+  overflow: hidden;
+  position: fixed;
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  z-index: 100;
+  transition: 0.4s;
+  top: 40%;
+  left: 50%;
+  transform: translate(-56%, -40%);
+}
+
+.popup-container {
+  text-align: center;
+  font-size: 20px;
+  max-width: 100%;
+  border: 2px solid #666;
+  background: rgba(40, 34, 34, 0.971);
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-57%, -45%);
+  color: rgba(255, 255, 255, 0.815);
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 9%;
+  width: 95%;
+  padding: 5% 5% 5% 9%;
+}
+
+.popup-content__congratulations {
+  font-size: 40px;
+}
+
+.popup-content__message {
+  font-size: 30px;
 }
