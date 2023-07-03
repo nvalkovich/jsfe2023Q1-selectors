@@ -2,11 +2,16 @@ import hljs from 'highlight.js/lib/core';
 import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
+import Storage from './storage';
 
 hljs.registerLanguage('css', css);
 
 class Page {
   private readonly level: Level;
+
+  private storage = new Storage();
+
+  private passedLevels = this.storage.getPassedLevels();
 
   constructor() {
     this.level = new Level();
@@ -187,6 +192,30 @@ class Page {
       levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
+    const { passedLevels } = this;
+    passedLevels.forEach((level) => {
+      const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+      passedLevellistItem?.classList.add('passed-level');
+    });
+
+    const levelsResetBtn: HTMLDivElement = document.createElement('div');
+    levelsResetBtn.textContent = 'Reset';
+    levelsResetBtn.className = 'levels__btn';
+    levelsContainer.append(levelsResetBtn);
+
+    levelsResetBtn.addEventListener('click', (e: Event): void => {
+      const { target } = e;
+      if (target instanceof HTMLElement) {
+        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
+        passedLevelsListItems.forEach((listItem) => {
+          listItem.classList.remove('passed-level');
+        });
+
+        this.storage.setPassedLevels([]);
+        this.level.render(1);
+      }
+    });
+
     textareaBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;
       if (target instanceof HTMLElement) {
@@ -322,8 +351,6 @@ class Page {
     });
 
     levelsList.addEventListener('click', (e: Event): void => {
-      textarea.value = '';
-      textareaCode.innerHTML = 'Type in a CSS selector';
       const { target } = e;
       if (
         target instanceof HTMLElement && target.classList.contains('levels-list__item')
@@ -332,6 +359,7 @@ class Page {
         if (currentlistItem) {
           currentlistItem.classList.remove('current-level');
         }
+
         this.level.render(Number(target.getAttribute('level')));
       }
     });

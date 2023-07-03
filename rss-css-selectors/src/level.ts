@@ -9,38 +9,55 @@ hljs.registerLanguage('xml', xml);
 class Level {
   private storage = new Storage();
 
-  private nesting = 0;
-
   private currentLevel = this.storage.getLevel();
 
+  private passedLevels = this.storage.getPassedLevels();
+
+  private nesting = 0;
+
+  private passedLevelsArray: number[] = this.passedLevels;
+
   public render(level: number): void {
-    const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
-    if (taskTitle) {
-      const taskText = levelsConfig[level - 1].task;
-      taskTitle.innerHTML = `${taskText}`;
+    if (this.storage.getPassedLevels().length >= levelsConfig.length) {
+      alert('win');
+      this.storage.setPassedLevels([]);
+    } else {
+      const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
+      const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
+
+      if (textarea && textareaCode) {
+        textarea.value = '';
+        textareaCode.innerHTML = 'Type in a CSS selector';
+      }
+
+      const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
+      if (taskTitle) {
+        const taskText = levelsConfig[level - 1].task;
+        taskTitle.innerHTML = `${taskText}`;
+      }
+
+      const picnic: HTMLDivElement | null = document.querySelector('.picnic');
+      const markup: HTMLDivElement | null = document.querySelector('.markup');
+      if (picnic && markup) {
+        picnic.innerHTML = '';
+        markup.innerHTML = '';
+      }
+
+      this.createHTML(levelsConfig[level - 1].html, picnic);
+
+      if (markup) {
+        this.createMarkup(levelsConfig[level - 1].html, markup);
+      }
+
+      const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
+      oldCurrentlistItem?.classList.remove('current-level');
+
+      const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+      newCurrentlistItem?.classList.add('current-level');
+
+      this.currentLevel = level;
+      this.storage.setLevel(this.currentLevel);
     }
-
-    const picnic: HTMLDivElement | null = document.querySelector('.picnic');
-    const markup: HTMLDivElement | null = document.querySelector('.markup');
-    if (picnic && markup) {
-      picnic.innerHTML = '';
-      markup.innerHTML = '';
-    }
-
-    this.createHTML(levelsConfig[level - 1].html, picnic);
-
-    if (markup) {
-      this.createMarkup(levelsConfig[level - 1].html, markup);
-    }
-
-    const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
-    oldCurrentlistItem?.classList.remove('current-level');
-
-    const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
-    newCurrentlistItem?.classList.add('current-level');
-
-    this.currentLevel = level;
-    this.storage.setLevel(this.currentLevel);
   }
 
   public checkSelector(value: string): void {
@@ -78,10 +95,17 @@ class Level {
             el.classList.remove('goal');
           }, 300);
         });
-        this.currentLevel += 1;
-        setTimeout(() => {
-          this.render(this.currentLevel);
-        }, 700);
+
+        const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${this.currentLevel}']`);
+        passedLevellistItem?.classList.add('passed-level');
+        if (!this.passedLevelsArray.includes(this.currentLevel)) {
+          this.passedLevelsArray.push(this.currentLevel);
+          this.storage.setPassedLevels(this.passedLevelsArray);
+          this.currentLevel += 1;
+          setTimeout(() => {
+            this.render(this.currentLevel);
+          }, 700);
+        }
       }
     } else {
       codeContainer?.classList.add('shaking');
