@@ -573,6 +573,16 @@ body {
   margin: 0;
 }
 
+.footer__rss-link-container {
+  width: 50px;
+  height: 50px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(../assets/images/rs-logo.png);
+  margin: 0 auto;
+}
+
 .link {
   color: rgba(255, 255, 255, 0.397);
   text-decoration: none;

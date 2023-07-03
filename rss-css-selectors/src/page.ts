@@ -156,14 +156,22 @@ class Page {
     mainWrapper.append(footer);
 
     const footerContent: HTMLParagraphElement = document.createElement('p');
-    footerContent.innerText = 'Made by';
+    footerContent.innerText = 'Made by ';
     footer.append(footerContent);
 
-    const footerLink: HTMLAnchorElement = document.createElement('a');
-    footerLink.className = 'link';
-    footerLink.href = 'https://github.com/nvalkovich';
-    footerLink.innerText = '@nvalkovich';
-    footerContent.append(footerLink);
+    const footerGuthubLink: HTMLAnchorElement = document.createElement('a');
+    footerGuthubLink.className = 'link';
+    footerGuthubLink.href = 'https://github.com/nvalkovich';
+    footerGuthubLink.innerText = '@nvalkovich';
+    footerContent.append(footerGuthubLink);
+
+    const footerRSSLinkContainer: HTMLDivElement = document.createElement('div');
+    footerRSSLinkContainer.className = 'footer__rss-link-container';
+    footerContent.append(footerRSSLinkContainer);
+
+    const footerRSSLink: HTMLAnchorElement = document.createElement('a');
+    footerRSSLink.href = 'https://rs.school/js/';
+    footerRSSLinkContainer.append(footerRSSLink);
 
     const levelsWrapper: HTMLDivElement = document.createElement('div');
     levelsWrapper.className = 'levels-wrapper';
