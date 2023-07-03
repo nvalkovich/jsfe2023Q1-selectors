@@ -6,6 +6,11 @@ export interface Level {
   html: Markup;
 }
 
+export interface Attributes {
+  attributeName: string
+  attributeValue: string
+}
+
 export interface Markup {
   element: string;
   className?: string;
@@ -15,9 +20,7 @@ export interface Markup {
     value: string
   },
   isClosed?: boolean;
-  attributes?: {
-    attributeName: string
-    attributeValue: string
-  } [];
+  attributes?: Attributes [];
+  commonAtributes?: Attributes [];
   children: Markup[] | null;
 }

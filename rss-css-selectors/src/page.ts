@@ -171,21 +171,93 @@ class Page {
     inputBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;
       if (target instanceof HTMLElement) {
-        const { value } = input;
-        this.level.checkSelector(value);
+        this.level.checkSelector(input.value);
       }
     });
 
     input.addEventListener('keyup', (e: KeyboardEvent): void => {
       if (e.key === 'Enter') {
-        const { value } = input;
-        this.level.checkSelector(value);
+        this.level.checkSelector(input.value);
       }
     });
 
     helpBtn.addEventListener('click', (): void => {
-      const selector = this.level.getSelector();
-      input.value = selector;
+      input.value = this.level.getSelector();
+    });
+
+    const createSelector = (element: HTMLElement): string => {
+      let selector = '';
+      if (element?.hasAttribute('markup')) {
+        selector += `[markup = '${element?.getAttribute('markup')}']`;
+      }
+      if (element?.hasAttribute('order')) {
+        selector += `[order = '${element?.getAttribute('order')}']`;
+      }
+      if (element?.hasAttribute('location')) {
+        selector += `[location = '${element?.getAttribute('location')}']`;
+      }
+      return selector;
+    };
+
+    const selectElements = (container: HTMLElement, selector: string): void => {
+      if (selector.length === 0) {
+        return;
+      }
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((el) => {
+        if (el.closest('div')?.classList.contains('markup__item')
+        || el.closest('div')?.classList.contains('markup__container')) {
+          el.classList.add('selected-markup');
+        } else if (el.classList.contains('picnic__item')) {
+          el.classList.add('selected-element');
+          el.setAttribute('tooltip', `${container?.getAttribute('markup')}`);
+          if (el.hasAttribute('state')) {
+            el.setAttribute('state', 'stop');
+          }
+        }
+      });
+    };
+
+    document.addEventListener('mouseover', (e:Event):void => {
+      const { target } = e;
+      if (target) {
+        const element = target as HTMLElement;
+        if (element.closest('div')?.classList.contains('markup__item')) {
+          const container = element.closest('div');
+          if (container) {
+            const selector = createSelector(container);
+            selectElements(container, selector);
+          }
+        }
+        if (element.closest('div')?.classList.contains('picnic__item')) {
+          const selector = createSelector(element);
+          selectElements(element, selector);
+        }
+      }
+    });
+
+    document.addEventListener('mouseout', (e:Event):void => {
+      const { target } = e;
+      if (target) {
+        const element = target as HTMLElement;
+        if (element.closest('div')?.classList.contains('markup__item')
+        || element.closest('div')?.classList.contains('picnic__item')) {
+          if (document.querySelectorAll('.selected-element') && document.querySelectorAll('.selected-markup')) {
+            const selectedElements = document.querySelectorAll('.selected-element');
+            const selectedMarkup = document.querySelectorAll('.selected-markup');
+            selectedElements.forEach((el) => {
+              el.classList.remove('selected-element');
+              el.removeAttribute('tooltip');
+              if (el.hasAttribute('state')) {
+                el.setAttribute('state', 'active');
+              }
+            });
+            selectedMarkup.forEach((el) => {
+              el.classList.remove('selected-markup');
+            });
+          }
+        }
+      }
     });
 
     levelsList.addEventListener('click', (e: Event): void => {

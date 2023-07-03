@@ -2,7 +2,7 @@ import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import Storage from './storage';
-import { Markup } from './types/interfaces';
+import { Markup, Attributes } from './types/interfaces';
 
 hljs.registerLanguage('xml', xml);
 
@@ -87,7 +87,14 @@ class Level {
         element.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
       });
     }
+    if (config.includes('commonAtributes')) {
+      const { commonAtributes } = data;
+      commonAtributes?.forEach((attr) => {
+        element.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+      });
+    }
 
+    element.classList.add('picnic__item');
     parentElement?.append(element);
 
     if (data.children !== null) {
@@ -102,12 +109,18 @@ class Level {
     parent: HTMLElement,
     hasChildren: boolean,
     isClosed: boolean,
+    commonAtributes: Attributes[] | undefined,
   ): void {
     if (isClosed) {
       this.nesting = this.nesting - 2 >= 0 ? this.nesting - 2 : 0;
     }
-
     const div = document.createElement('div');
+    commonAtributes?.forEach((attr) => {
+      div.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+      parent.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+    });
+    div.className = 'markup__item';
+    parent.classList.add('markup__container');
     parent.append(div);
     const pre = document.createElement('pre');
     div?.append(pre);
@@ -143,20 +156,23 @@ class Level {
       }
     }
 
+    const container = document.createElement('div');
+    parent.append(container);
+
     if (data.children) {
       content += '>';
-      this.addMarkupItem(content, parent, Boolean(data.children), false);
+      this.addMarkupItem(content, container, Boolean(data.children), false, data.commonAtributes);
       data.children?.forEach((child) => {
-        this.createMarkup(child, parent);
+        this.createMarkup(child, container);
       });
     } else if (!data.children) {
       content += '/>';
-      this.addMarkupItem(content, parent, Boolean(data.children), false);
+      this.addMarkupItem(content, container, Boolean(data.children), false, data.commonAtributes);
     }
 
     if (data.children) {
       const closedContent = `</${data.element}>`;
-      this.addMarkupItem(closedContent, parent, false, true);
+      this.addMarkupItem(closedContent, container, false, true, data.commonAtributes);
     }
   }
 

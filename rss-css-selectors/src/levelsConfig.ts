@@ -17,8 +17,12 @@ const levelsConfig: Level[] = [
       children: [{
         element: 'plate',
         className: 'plate',
-        attributes: [{ attributeName: 'animation', attributeValue: 'active-plate' },
+        attributes: [
+          { attributeName: 'animation', attributeValue: 'active-plate' },
           { attributeName: 'state', attributeValue: 'active' },
+        ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
           { attributeName: 'order', attributeValue: 'first' },
         ],
         children: null,
@@ -44,16 +48,21 @@ const levelsConfig: Level[] = [
       children: [{
         element: 'plate',
         className: 'plate',
-        attributes: [{ attributeName: 'order', attributeValue: 'first' },
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
         ],
         children: [{
           element: 'apple',
           className: 'apple',
           attributes: [
-            { attributeName: 'location', attributeValue: 'plate' },
-            { attributeName: 'animation', attributeValue: 'active-plate' },
+            { attributeName: 'animation', attributeValue: 'active-element' },
             { attributeName: 'state', attributeValue: 'active' },
             { attributeName: 'level', attributeValue: '2' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<apple></apple>' },
+            { attributeName: 'location', attributeValue: 'plate' },
           ],
           children: null,
         }],
@@ -82,8 +91,11 @@ const levelsConfig: Level[] = [
         element: 'plate',
         className: 'plate',
         attributes: [
-          { attributeName: 'order', attributeValue: 'first' },
           { attributeName: 'animation', attributeValue: 'active-element' },
+        ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
         ],
         children: [
           {
@@ -94,19 +106,23 @@ const levelsConfig: Level[] = [
               value: 'red',
             },
             attributes: [
-              { attributeName: 'location', attributeValue: 'plate' },
               { attributeName: 'animation', attributeValue: 'active-element' },
               { attributeName: 'state', attributeValue: 'active' },
               { attributeName: 'level', attributeValue: '3' },
+            ],
+            commonAtributes: [
+              { attributeName: 'markup', attributeValue: '<apple class="red"></apple>' },
+              { attributeName: 'location', attributeValue: 'plate' },
             ],
             children: null,
           },
           {
             element: 'apple',
             className: 'apple',
-            attributes: [
+            attributes: [{ attributeName: 'level', attributeValue: '3' }],
+            commonAtributes: [
+              { attributeName: 'markup', attributeValue: '<apple></apple>' },
               { attributeName: 'location', attributeValue: 'plate' },
-              { attributeName: 'level', attributeValue: '3' },
             ],
             children: null,
           },
@@ -115,9 +131,10 @@ const levelsConfig: Level[] = [
       {
         element: 'apple',
         className: 'apple',
-        attributes: [
+        attributes: [{ attributeName: 'level', attributeValue: '3' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<apple></apple>' },
           { attributeName: 'location', attributeValue: 'blanket' },
-          { attributeName: 'level', attributeValue: '3' },
         ],
         children: null,
       },
@@ -132,8 +149,11 @@ const levelsConfig: Level[] = [
           { attributeName: 'animation', attributeValue: 'active-element' },
           { attributeName: 'state', attributeValue: 'active' },
           { attributeName: 'size', attributeValue: 'small' },
-          { attributeName: 'location', attributeValue: 'blanket' },
           { attributeName: 'level', attributeValue: '3' },
+        ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<apple class="red"></apple>' },
+          { attributeName: 'location', attributeValue: 'blanket' },
         ],
         children: null,
       },
@@ -159,7 +179,8 @@ const levelsConfig: Level[] = [
       children: [{
         element: 'plate',
         className: 'plate',
-        attributes: [
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
           { attributeName: 'order', attributeValue: 'first' },
         ],
         children: [{
@@ -168,6 +189,7 @@ const levelsConfig: Level[] = [
           attributes: [
             { attributeName: 'level', attributeValue: '4' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange></orange>' }],
           children: null,
         },
         {
@@ -179,6 +201,7 @@ const levelsConfig: Level[] = [
             { attributeName: 'state', attributeValue: 'active' },
             { attributeName: 'level', attributeValue: '4' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange id="sliced-orange></orange>' }],
           children: null,
         },
         ],
@@ -201,19 +224,26 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
+
       toWiev: { selector: 'className', value: 'picnic-blanket' },
       children: [{
         element: 'plate',
         className: 'plate',
-        attributes: [{ attributeName: 'order', attributeValue: 'first' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'apple',
           className: 'apple',
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
             { attributeName: 'state', attributeValue: 'active' },
-            { attributeName: 'location', attributeValue: 'plate' },
             { attributeName: 'level', attributeValue: '5' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<apple></apple>' },
+            { attributeName: 'location', attributeValue: 'plate' },
           ],
           children: null,
         },
@@ -225,6 +255,7 @@ const levelsConfig: Level[] = [
             { attributeName: 'state', attributeValue: 'active' },
             { attributeName: 'level', attributeValue: '5' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange></orange>' }],
           children: null,
         },
         {
@@ -237,15 +268,17 @@ const levelsConfig: Level[] = [
             { attributeName: 'state', attributeValue: 'active' },
             { attributeName: 'level', attributeValue: '5' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<apple class="red"></apple>' }],
           children: null,
         }],
       },
       {
         element: 'apple',
         className: 'apple',
-        attributes: [
+        attributes: [{ attributeName: 'level', attributeValue: '5' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<apple></apple>' },
           { attributeName: 'location', attributeValue: 'blanket' },
-          { attributeName: 'level', attributeValue: '5' },
         ],
         children: null,
       }],
@@ -268,20 +301,23 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
+
       toWiev: {
         selector: 'className',
         value: 'picnic-blanket',
       },
-
       children: [{
         element: 'plate',
         className: 'plate',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'first' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'apple',
           className: 'apple',
           attributes: [{ attributeName: 'level', attributeValue: '6' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<apple></apple>' }],
           children: null,
         },
         {
@@ -289,6 +325,7 @@ const levelsConfig: Level[] = [
           className: 'orange',
           attributes: [{ attributeName: 'level', attributeValue: '6' }],
           children: null,
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange></orange>' }],
         },
         {
           element: 'apple',
@@ -297,11 +334,11 @@ const levelsConfig: Level[] = [
             selector: 'className',
             value: 'red',
           },
-
           attributes: [
             { attributeName: 'size', attributeValue: 'small' },
             { attributeName: 'level', attributeValue: '6' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<apple class="red"></apple>' }],
           children: null,
         }],
       },
@@ -312,25 +349,27 @@ const levelsConfig: Level[] = [
           selector: 'attributes',
           value: 'content="baking"',
         },
-
         attributes: [
           { attributeName: 'animation', attributeValue: 'active-plate' },
-          { attributeName: 'order', attributeValue: 'second' },
           { attributeName: 'state', attributeValue: 'active' },
           { attributeName: 'content', attributeValue: 'baking' },
         ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate content="baking"></plate>' },
+          { attributeName: 'order', attributeValue: 'second' },
+        ],
         children: [{
-          element: 'donut',
-          className: 'donut',
-
+          element: 'bread',
+          className: 'bread',
           attributes: [{ attributeName: 'level', attributeValue: '6' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<bread></bread>' }],
           children: null,
         },
         {
-          element: 'bread',
-          className: 'bread',
-
+          element: 'donut',
+          className: 'donut',
           attributes: [{ attributeName: 'level', attributeValue: '6' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<donut></donut>' }],
           children: null,
         }],
       }],
@@ -354,31 +393,33 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
+
       toWiev: {
         selector: 'className',
         value: 'picnic-blanket',
       },
-
       children: [{
         element: 'plate',
         className: 'plate',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'first' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'donut',
           className: 'donut',
-
-          attributes: [
+          attributes: [{ attributeName: 'level', attributeValue: '7' }],
+          commonAtributes: [
             { attributeName: 'location', attributeValue: 'plate' },
-            { attributeName: 'level', attributeValue: '7' },
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
           ],
           children: null,
         },
         {
           element: 'orange',
           className: 'orange',
-
           attributes: [{ attributeName: 'level', attributeValue: '7' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange></orange>' }],
           children: null,
         },
         {
@@ -388,51 +429,55 @@ const levelsConfig: Level[] = [
             selector: 'className',
             value: 'red',
           },
-
           attributes: [
             { attributeName: 'size', attributeValue: 'small' },
             { attributeName: 'level', attributeValue: '7' },
           ],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<apple class="red"></apple>' }],
           children: null,
         }],
       },
       {
         element: 'box',
         className: 'box',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'second' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<box></box>' },
+          { attributeName: 'order', attributeValue: 'second' },
+        ],
         children: [{
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '7' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'first' },
-            { attributeName: 'level', attributeValue: '7' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
-            { attributeName: 'location', attributeValue: 'box' },
             { attributeName: 'state', attributeValue: 'active' },
-            { attributeName: 'order', attributeValue: 'second' },
             { attributeName: 'level', attributeValue: '7' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
+            { attributeName: 'order', attributeValue: 'second' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '7' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'third' },
-            { attributeName: 'level', attributeValue: '7' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         }],
@@ -459,30 +504,39 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
+
       toWiev: {
         selector: 'className',
         value: 'picnic-blanket',
       },
-
       children: [{
         element: 'plate',
         className: 'plate',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'first' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'bread',
           className: 'bread',
-
-          attributes: [{ attributeName: 'level', attributeValue: '8' }],
+          attributes: [{ attributeName: 'level', attributeValue: '8' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<bread></bread>' },
+            { attributeName: 'order', attributeValue: 'first' },
+          ],
           children: [{
             element: 'sausage',
             className: 'sausage',
-
             attributes: [
               { attributeName: 'animation', attributeValue: 'active-element' },
-              { attributeName: 'location', attributeValue: 'bread' },
               { attributeName: 'state', attributeValue: 'active' },
               { attributeName: 'level', attributeValue: '8' },
+            ],
+            commonAtributes: [
+              { attributeName: 'markup', attributeValue: '<sausage></sausage>' },
+              { attributeName: 'order', attributeValue: 'first' },
+              { attributeName: 'location', attributeValue: 'bread' },
             ],
             children: null,
           }],
@@ -491,45 +545,40 @@ const levelsConfig: Level[] = [
       {
         element: 'plate',
         className: 'plate',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'second' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'second' },
+        ],
         children: [{
           element: 'sausage',
           className: 'sausage',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'plate' },
+          attributes: [{ attributeName: 'level', attributeValue: '8' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<sausage></sausage>' },
             { attributeName: 'order', attributeValue: 'first' },
-            { attributeName: 'level', attributeValue: '8' },
+            { attributeName: 'location', attributeValue: 'plate' },
           ],
           children: null,
         },
         {
           element: 'bread',
           className: 'bread',
-
           attributes: [{ attributeName: 'level', attributeValue: '8' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<bread></bread>' },
+            { attributeName: 'order', attributeValue: 'second' },
+          ],
           children: [{
             element: 'sausage',
             className: 'sausage',
-
-            attributes: [
+            attributes: [{ attributeName: 'level', attributeValue: '8' }],
+            commonAtributes: [
+              { attributeName: 'markup', attributeValue: '<sausage></sausage>' },
+              { attributeName: 'order', attributeValue: 'second' },
               { attributeName: 'location', attributeValue: 'bread' },
-              { attributeName: 'level', attributeValue: '8' },
             ],
             children: null,
           }],
-        },
-        {
-          element: 'sausage',
-          className: 'sausage',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'plate' },
-            { attributeName: 'order', attributeValue: 'second' },
-            { attributeName: 'level', attributeValue: '8' },
-          ],
-          children: null,
         }],
       }],
     },
@@ -554,29 +603,29 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
+
       toWiev: {
         selector: 'className',
         value: 'picnic-blanket',
       },
-
       children: [{
         element: 'plate',
         className: 'plate',
-
         attributes: [
-          {
-            attributeName: 'order',
-            attributeValue: 'first',
-          }],
+        ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<plate></plate>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'donut',
           className: 'donut',
           id: 'acing-donut',
           toWiev: { selector: 'id', value: 'acing-donut' },
-
-          attributes: [
+          attributes: [{ attributeName: 'level', attributeValue: '9' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut id="acing-donut"></donut>' },
             { attributeName: 'location', attributeValue: 'plate' },
-            { attributeName: 'level', attributeValue: '9' },
           ],
           children: null,
         },
@@ -584,17 +633,17 @@ const levelsConfig: Level[] = [
           element: 'orange',
           className: 'orange sliced-orange',
           toWiev: { selector: 'id', value: 'sliced-orange' },
-
           attributes: [{ attributeName: 'level', attributeValue: '9' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<orange id="sliced-orange"></orange>' }],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
-          attributes: [
+          attributes: [{ attributeName: 'level', attributeValue: '9' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'location', attributeValue: 'plate' },
-            { attributeName: 'level', attributeValue: '9' },
           ],
           children: null,
         }],
@@ -602,31 +651,37 @@ const levelsConfig: Level[] = [
       {
         element: 'box',
         className: 'box',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'second' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<box></box>' },
+          { attributeName: 'order', attributeValue: 'second' },
+        ],
         children: [{
           element: 'donut',
           className: 'donut',
-
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
-            { attributeName: 'location', attributeValue: 'box' },
             { attributeName: 'state', attributeValue: 'active' },
-            { attributeName: 'order', attributeValue: 'first' },
             { attributeName: 'level', attributeValue: '9' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
+            { attributeName: 'order', attributeValue: 'first' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
-            { attributeName: 'location', attributeValue: 'box' },
             { attributeName: 'state', attributeValue: 'active' },
-            { attributeName: 'order', attributeValue: 'second' },
             { attributeName: 'level', attributeValue: '9' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
+            { attributeName: 'order', attributeValue: 'second' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
@@ -635,24 +690,28 @@ const levelsConfig: Level[] = [
           className: 'donut',
           id: 'acing-donut',
           toWiev: { selector: 'id', value: 'acing-donut' },
-
           attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
-            { attributeName: 'order', attributeValue: 'third' },
             { attributeName: 'level', attributeValue: '9' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut id="acing-donut"></donut>' },
+            { attributeName: 'order', attributeValue: 'third' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
-            { attributeName: 'location', attributeValue: 'box' },
             { attributeName: 'state', attributeValue: 'active' },
-            { attributeName: 'order', attributeValue: 'fourth' },
             { attributeName: 'level', attributeValue: '9' },
+          ],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
+            { attributeName: 'order', attributeValue: 'fourth' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         }],
@@ -679,54 +738,56 @@ const levelsConfig: Level[] = [
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
-      toWiev: { selector: 'className', value: 'picnic-blanket' },
 
+      toWiev: { selector: 'className', value: 'picnic-blanket' },
       children: [{
         element: 'box',
         className: 'box',
-
-        attributes: [{ attributeName: 'order', attributeValue: 'first' }],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<box></box>' },
+          { attributeName: 'order', attributeValue: 'first' },
+        ],
         children: [{
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '10' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'first' },
-            { attributeName: 'level', attributeValue: '10' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '10' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'second' },
-            { attributeName: 'level', attributeValue: '10' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '10' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'third' },
-            { attributeName: 'level', attributeValue: '10' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         },
         {
           element: 'donut',
           className: 'donut',
-
-          attributes: [
-            { attributeName: 'location', attributeValue: 'box' },
+          attributes: [{ attributeName: 'level', attributeValue: '10' }],
+          commonAtributes: [
+            { attributeName: 'markup', attributeValue: '<donut></donut>' },
             { attributeName: 'order', attributeValue: 'fourth' },
-            { attributeName: 'level', attributeValue: '10' },
+            { attributeName: 'location', attributeValue: 'box' },
           ],
           children: null,
         }],
@@ -734,23 +795,25 @@ const levelsConfig: Level[] = [
       {
         element: 'box',
         className: 'box',
-
         attributes: [
           { attributeName: 'animation', attributeValue: 'active-box' },
           { attributeName: 'state', attributeValue: 'active' },
+        ],
+        commonAtributes: [
+          { attributeName: 'markup', attributeValue: '<box></box>' },
           { attributeName: 'order', attributeValue: 'second' },
         ],
         children: [{
           element: 'bread',
           className: 'bread sandwitch',
           toWiev: { selector: 'className', value: 'sandwitch' },
-
           attributes: [{ attributeName: 'level', attributeValue: '10' }],
+          commonAtributes: [{ attributeName: 'markup', attributeValue: '<bread class="sandwitch"></bread>' }],
           children: [{
             element: 'sausage',
             className: 'sausage',
-
             attributes: [{ attributeName: 'level', attributeValue: '10' }],
+            commonAtributes: [{ attributeName: 'markup', attributeValue: '<sausage></sausage>' }],
             children: null,
           }],
         }],

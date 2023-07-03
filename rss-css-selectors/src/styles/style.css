@@ -305,14 +305,8 @@ body {
 }
 
 .sausage[location="plate"][order="first"][level="8"] {
-  left: 42%;
-  top: 25%;
-}
-
-.sausage[location="plate"][order="second"][level="8"] {
-  z-index: 3;
-  left: 50%;
-  top: 40%;
+  left: 48%;
+  top: 30%;
 }
 
 .sausage[location="bread"][level="8"],
@@ -489,6 +483,10 @@ body {
   padding: 10px 15px;
 }
 
+.markup__item {
+  cursor: pointer;
+}
+
 .css-edit-field {
   font-size: 13px;
   padding-top: 10px;
@@ -583,3 +581,33 @@ body {
 .current-level {
   color: rgba(255, 255, 255, .6);
 }
+
+.selected-element {
+  box-shadow: 0px 0px 2px 3px rgba(255, 255, 255, 1) !important;
+}
+
+[tooltip]::after {
+  font-size: 13px;
+  position: absolute;
+  bottom: 120%;
+  height: auto;
+  content: attr(tooltip);
+  color: rgba(12, 0, 0, 0.9);
+  width: auto;
+  background-color: rgba(255, 255, 255, 1) ;
+  text-align: center;
+  padding: 2px 7px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 2px 3px rgba(255, 255, 255, .5);
+  animation: none !important;
+}
+
+.plate[tooltip]::after,
+.box[tooltip]::after {
+  bottom: 100%;
+}
+
+.selected-markup span{
+  color: rgba(255, 255, 255, 1);
+}
+
