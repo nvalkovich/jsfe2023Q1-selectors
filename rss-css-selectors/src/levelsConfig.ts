@@ -5,8 +5,6 @@ const levelsConfig: Level[] = [
     level: 1,
     task: 'Select the plate',
     selector: 'plate',
-    markup: `
-  <plate/>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -33,11 +31,6 @@ const levelsConfig: Level[] = [
     level: 2,
     task: 'Select the apple on a plate',
     selector: 'plate>apple',
-    markup: `
-<plate>
-  <apple/>
-</plate>
-<apple/>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -73,13 +66,6 @@ const levelsConfig: Level[] = [
     level: 3,
     task: 'Select red apples',
     selector: '.red',
-    markup: `
-<plate>
-  <apple/>
-  <apple class="red"/>
-</plate>
-<apple/>
-<apple class="red"/>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -164,11 +150,6 @@ const levelsConfig: Level[] = [
     level: 4,
     task: 'Select the sliced orange',
     selector: '#sliced-orange',
-    markup: `
-    <plate>
-      <orange/>
-      <orange id="sliced-orange"/>
-    </plate>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -212,15 +193,6 @@ const levelsConfig: Level[] = [
     level: 5,
     task: 'Select all on a plate',
     selector: 'plate>*',
-    markup: `
-    <div class="picnic-blanket">
-      <plate>
-        <apple/>
-        <orange/>
-        <apple class="red"/>
-      </plate>
-      <apple/>
-    </div>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -288,16 +260,6 @@ const levelsConfig: Level[] = [
     level: 6,
     task: 'Select the plate of baked goods',
     selector: 'plate[content="baking"]',
-    markup: `
-<plate>
-  <apple/>
-  <orange/>
-  <apple class="red"/>
-</plate>
-<plate content="baking">
-  <bread/>
-  <donut/>
-</plate>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -379,17 +341,6 @@ const levelsConfig: Level[] = [
     level: 7,
     task: 'Select the second donut in the box',
     selector: 'box donut:nth-child(2)',
-    markup: `
-<plate>
-  <donut/>
-  <orange>
-  <apple class="red"/>
-</plate>
-<box>
-  <donut/>
-  <donut/>
-  <donut/>
-</box>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -488,19 +439,6 @@ const levelsConfig: Level[] = [
     level: 8,
     task: 'Select the sausage on the first plate',
     selector: 'plate:first-child>bread>sausage',
-    markup: `
-<plate>
-  <bread>
-    <sausage/>
-  </bread>
-</plate>
-<plate>
-  <sausage/>
-  <bread>
-  <sausage/>
-  </bread>
-  <sausage/>
-</plate>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -588,18 +526,6 @@ const levelsConfig: Level[] = [
     level: 9,
     task: 'Select all donuts in a box without icing',
     selector: 'box donut:not(#acing-donut)',
-    markup: `
-<plate>
-  <donut/>
-  <orange id="sliced-orange"/>
-  <donut/>
-</plate>
-<box>
-  <donut/>
-  <donut id="acing-donut"/>
-  <donut/>
-  <donut/>
-</box>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',
@@ -722,19 +648,6 @@ const levelsConfig: Level[] = [
     level: 10,
     task: 'Select the box that has a sandwitch',
     selector: 'box:has(.sandwitch)',
-    markup: `
-<box>
-  <donut/>
-  <donut/>
-  <donut/>
-  <donut/>
-</box>
-<box>
-  <donut/>
-  <bread class="sandwitch">
-    <sausage/>
-  </bread>
-</box>`,
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',

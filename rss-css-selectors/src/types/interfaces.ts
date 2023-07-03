@@ -2,7 +2,6 @@ export interface Level {
   level: number;
   task: string;
   selector: string,
-  markup: string;
   html: Markup;
 }
 
