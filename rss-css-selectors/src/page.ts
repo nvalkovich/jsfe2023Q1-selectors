@@ -155,21 +155,23 @@ class Page {
     footer.className = 'main-wrapper__footer footer';
     mainWrapper.append(footer);
 
-    const footerContent: HTMLParagraphElement = document.createElement('p');
+    const footerContent: HTMLDivElement = document.createElement('div');
+    footerContent.className = 'footer__content footer-content';
     footerContent.innerText = 'Made by ';
     footer.append(footerContent);
 
     const footerGuthubLink: HTMLAnchorElement = document.createElement('a');
-    footerGuthubLink.className = 'link';
+    footerGuthubLink.className = 'link  link_gh';
     footerGuthubLink.href = 'https://github.com/nvalkovich';
     footerGuthubLink.innerText = '@nvalkovich';
     footerContent.append(footerGuthubLink);
 
     const footerRSSLinkContainer: HTMLDivElement = document.createElement('div');
-    footerRSSLinkContainer.className = 'footer__rss-link-container';
+    footerRSSLinkContainer.className = 'footer-content__rss-link-container rss-link-container';
     footerContent.append(footerRSSLinkContainer);
 
     const footerRSSLink: HTMLAnchorElement = document.createElement('a');
+    footerRSSLink.className = 'rss-link-container__link link rss-link';
     footerRSSLink.href = 'https://rs.school/js/';
     footerRSSLinkContainer.append(footerRSSLink);
 

@@ -573,7 +573,7 @@ body {
   margin: 0;
 }
 
-.footer__rss-link-container {
+.rss-link-container {
   width: 50px;
   height: 50px;
   background-size: 100%;
@@ -581,6 +581,13 @@ body {
   background-repeat: no-repeat;
   background-image: url(../assets/images/rs-logo.png);
   margin: 0 auto;
+}
+
+.rss-link {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
 }
 
 .link {
