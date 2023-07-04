@@ -22,6 +22,7 @@ class Level {
   private helpPassedLevelsArray: number[] = this.helpPassedLevels;
 
   public render(level: number): void {
+    if (level > levelsConfig.length) return;
     const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
     const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
 
