@@ -71,8 +71,7 @@ class Level {
       const activeELements = [];
       for (let i = 0; i < selectedELements.length; i += 1) {
         const element = selectedELements[i];
-        if (element.hasAttribute('state')
-          && activeELements.length !== levelsConfig[this.currentLevel - 1]?.goalElementsNumber) {
+        if (element.hasAttribute('state')) {
           element.setAttribute('state', 'unactive');
           element.classList.add('shaking');
           setTimeout(() => {
@@ -80,8 +79,7 @@ class Level {
             element.setAttribute('state', 'active');
           }, 300);
           activeELements.push(element);
-        } else if (!element.hasAttribute('state')
-          && activeELements.length !== levelsConfig[this.currentLevel - 1]?.goalElementsNumber) {
+        } else if (!element.hasAttribute('state')) {
           element.classList.add('shaking');
           setTimeout(() => {
             element.classList.remove('shaking');
@@ -263,7 +261,6 @@ class Level {
 
     if (popupBtn) {
       popupBtn.addEventListener('click', (): void => {
-        console.log('pop');
         const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
         passedLevelsListItems.forEach((listItem) => {
           listItem.classList.remove('passed-level');

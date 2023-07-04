@@ -263,7 +263,6 @@ class Page {
       if (e.key === 'Enter') {
         e.preventDefault();
         this.level.checkSelector(textarea.value);
-        console.log(textarea.value);
       }
     });
 
@@ -293,7 +292,6 @@ class Page {
       currentListItem?.setAttribute('with-help', 'true');
       textarea.value = this.level.getSelector();
       typeSelector(textarea.value);
-      console.log(textarea.value);
     });
 
     const createSelector = (element: HTMLElement): string => {
