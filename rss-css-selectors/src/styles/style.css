@@ -650,6 +650,19 @@ body {
   background-image: url(../assets/images/checked-mark.svg);
 }
 
+.passed-level[with-help="true"]::after {
+  content: "";
+  position: absolute;
+  padding-top: 30px;
+  left: 10%;
+  width: 13px;
+  height: 13px;
+  background-size: 13px 13px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(../assets/images/help-browser-symbolic-svgrepo-com.svg);
+}
+
 .light-text,
 .current-level {
   color: rgba(255, 255, 255, .6);

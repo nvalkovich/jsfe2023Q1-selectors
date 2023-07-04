@@ -3,9 +3,12 @@ class Storage {
 
   private readonly passedLevelsKey;
 
+  private readonly helpPassedLevelsKey;
+
   constructor() {
     this.levelKey = 'level';
     this.passedLevelsKey = 'passedLevelsKey';
+    this.helpPassedLevelsKey = 'helpPassedLevels';
   }
 
   public setLevel = (level: number): void => localStorage.setItem(this.levelKey, level.toString());
@@ -19,6 +22,15 @@ class Storage {
 
   public getPassedLevels = ():number[] => JSON.parse(
     localStorage.getItem(this.passedLevelsKey) as string,
+  ) || [];
+
+  public setLevelsPassedWithHelp = (levelsPassedWithHelp:number[]): void => localStorage.setItem(
+    this.helpPassedLevelsKey,
+    JSON.stringify(levelsPassedWithHelp),
+  );
+
+  public getLevelsPassedWithHelp = ():number[] => JSON.parse(
+    localStorage.getItem(this.helpPassedLevelsKey) as string,
   ) || [];
 }
 

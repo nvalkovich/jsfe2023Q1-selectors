@@ -13,9 +13,13 @@ class Level {
 
   private passedLevels = this.storage.getPassedLevels();
 
+  private helpPassedLevels = this.storage.getPassedLevels();
+
   private nesting = 0;
 
   private passedLevelsArray: number[] = this.passedLevels;
+
+  private helpPassedLevelsArray: number[] = this.helpPassedLevels;
 
   public render(level: number): void {
     const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
@@ -53,49 +57,6 @@ class Level {
 
     this.currentLevel = level;
     this.storage.setLevel(this.currentLevel);
-  }
-
-  public win():void {
-    const popupWrapper = document.createElement('div');
-    popupWrapper.className = 'popup-wrapper popup-wrapper_active';
-    document.body.append(popupWrapper);
-
-    const popupContainer = document.createElement('div');
-    popupContainer.className = 'popup-container';
-    popupWrapper.append(popupContainer);
-
-    const popupContent = document.createElement('div');
-    popupContent.className = 'popup-container__content popup-content';
-    popupContainer.append(popupContent);
-
-    const popupCongratulations = document.createElement('h3');
-    popupCongratulations.className = 'popup-content__congratulations';
-    popupCongratulations.textContent = 'Congratulations!';
-    popupContent.append(popupCongratulations);
-
-    const popupMessage = document.createElement('h3');
-    popupMessage.className = 'popup-content__message';
-    popupMessage.textContent = 'You have found all selectors';
-    popupContent.append(popupMessage);
-
-    const popupBtn = document.createElement('button');
-    popupBtn.className = 'popup-content__btn';
-    popupContent.append(popupBtn);
-    popupBtn.innerText = 'Train again';
-
-    if (popupBtn) {
-      popupBtn.addEventListener('click', (): void => {
-        console.log('pop');
-        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
-        passedLevelsListItems.forEach((listItem) => {
-          listItem.classList.remove('passed-level');
-        });
-
-        this.storage.setPassedLevels([]);
-        this.render(1);
-        popupWrapper.classList.remove('popup-wrapper_active');
-      });
-    }
   }
 
   public checkSelector(value: string): void {
@@ -137,7 +98,11 @@ class Level {
         const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${this.currentLevel}']`);
         passedLevellistItem?.classList.add('passed-level');
         if (!this.passedLevelsArray.includes(this.currentLevel)) {
+          if (passedLevellistItem?.hasAttribute('with-help')) {
+            this.helpPassedLevelsArray.push(this.currentLevel);
+          }
           this.passedLevelsArray.push(this.currentLevel);
+          this.storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
           this.storage.setPassedLevels(this.passedLevelsArray);
           this.currentLevel += 1;
           if (this.storage.getPassedLevels().length < levelsConfig.length) {
@@ -263,6 +228,49 @@ class Level {
 
   public getSelector(): string {
     return levelsConfig[this.currentLevel - 1].selector;
+  }
+
+  public win():void {
+    const popupWrapper = document.createElement('div');
+    popupWrapper.className = 'popup-wrapper popup-wrapper_active';
+    document.body.append(popupWrapper);
+
+    const popupContainer = document.createElement('div');
+    popupContainer.className = 'popup-container';
+    popupWrapper.append(popupContainer);
+
+    const popupContent = document.createElement('div');
+    popupContent.className = 'popup-container__content popup-content';
+    popupContainer.append(popupContent);
+
+    const popupCongratulations = document.createElement('h3');
+    popupCongratulations.className = 'popup-content__congratulations';
+    popupCongratulations.textContent = 'Congratulations!';
+    popupContent.append(popupCongratulations);
+
+    const popupMessage = document.createElement('h3');
+    popupMessage.className = 'popup-content__message';
+    popupMessage.textContent = 'You have found all selectors';
+    popupContent.append(popupMessage);
+
+    const popupBtn = document.createElement('button');
+    popupBtn.className = 'popup-content__btn';
+    popupContent.append(popupBtn);
+    popupBtn.innerText = 'Train again';
+
+    if (popupBtn) {
+      popupBtn.addEventListener('click', (): void => {
+        console.log('pop');
+        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
+        passedLevelsListItems.forEach((listItem) => {
+          listItem.classList.remove('passed-level');
+        });
+        this.storage.setLevelsPassedWithHelp([]);
+        this.storage.setPassedLevels([]);
+        this.render(1);
+        popupWrapper.classList.remove('popup-wrapper_active');
+      });
+    }
   }
 }
 

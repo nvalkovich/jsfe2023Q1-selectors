@@ -13,6 +13,8 @@ class Page {
 
   private passedLevels = this.storage.getPassedLevels();
 
+  private helpPassedLevel = this.storage.getLevelsPassedWithHelp();
+
   constructor() {
     this.level = new Level();
   }
@@ -208,6 +210,12 @@ class Page {
       passedLevellistItem?.classList.add('passed-level');
     });
 
+    const { helpPassedLevel } = this;
+    helpPassedLevel.forEach((level) => {
+      const helpPassedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+      helpPassedLevellistItem?.setAttribute('with-help', 'true');
+    });
+
     const levelsResetBtn: HTMLDivElement = document.createElement('div');
     levelsResetBtn.textContent = 'Reset';
     levelsResetBtn.className = 'levels__btn';
@@ -280,6 +288,8 @@ class Page {
     };
 
     helpBtn.addEventListener('click', (): void => {
+      const currentListItem = document.querySelector('.current-level');
+      currentListItem?.setAttribute('with-help', 'true');
       textarea.value = this.level.getSelector();
       typeSelector(textarea.value);
       console.log(textarea.value);
