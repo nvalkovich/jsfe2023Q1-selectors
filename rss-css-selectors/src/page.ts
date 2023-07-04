@@ -229,9 +229,9 @@ class Page {
         passedLevelsListItems.forEach((listItem) => {
           listItem.classList.remove('passed-level');
         });
-
         this.storage.setPassedLevels([]);
         this.level.render(1);
+        this.storage.clearLocalStorage();
       }
     });
 

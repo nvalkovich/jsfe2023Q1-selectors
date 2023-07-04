@@ -32,6 +32,8 @@ class Storage {
   public getLevelsPassedWithHelp = ():number[] => JSON.parse(
     localStorage.getItem(this.helpPassedLevelsKey) as string,
   ) || [];
+
+  public clearLocalStorage = (): void => localStorage.clear();
 }
 
 export default Storage;

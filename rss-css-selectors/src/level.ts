@@ -13,7 +13,7 @@ class Level {
 
   private passedLevels = this.storage.getPassedLevels();
 
-  private helpPassedLevels = this.storage.getPassedLevels();
+  private helpPassedLevels = this.storage.getLevelsPassedWithHelp();
 
   private nesting = 0;
 
@@ -22,6 +22,7 @@ class Level {
   private helpPassedLevelsArray: number[] = this.helpPassedLevels;
 
   public render(level: number): void {
+    if (level > levelsConfig.length) return;
     const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
     const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
 
@@ -56,6 +57,8 @@ class Level {
     newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
+    this.passedLevelsArray = this.storage.getPassedLevels();
+    this.helpPassedLevelsArray = this.storage.getLevelsPassedWithHelp();
     this.storage.setLevel(this.currentLevel);
   }
 
@@ -69,7 +72,7 @@ class Level {
       for (let i = 0; i < selectedELements.length; i += 1) {
         const element = selectedELements[i];
         if (element.hasAttribute('state')
-          && activeELements.length !== levelsConfig[this.currentLevel - 1].goalElementsNumber) {
+          && activeELements.length !== levelsConfig[this.currentLevel - 1]?.goalElementsNumber) {
           element.setAttribute('state', 'unactive');
           element.classList.add('shaking');
           setTimeout(() => {
@@ -78,7 +81,7 @@ class Level {
           }, 300);
           activeELements.push(element);
         } else if (!element.hasAttribute('state')
-          && activeELements.length !== levelsConfig[this.currentLevel - 1].goalElementsNumber) {
+          && activeELements.length !== levelsConfig[this.currentLevel - 1]?.goalElementsNumber) {
           element.classList.add('shaking');
           setTimeout(() => {
             element.classList.remove('shaking');
@@ -86,8 +89,8 @@ class Level {
         }
       }
       if ((activeELements.length === selectedELements.length
-          && selectedELements.length === levelsConfig[this.currentLevel - 1].goalElementsNumber)
-          || value === levelsConfig[this.currentLevel - 1].selector) {
+          && selectedELements.length === levelsConfig[this.currentLevel - 1]?.goalElementsNumber)
+          || value === levelsConfig[this.currentLevel - 1]?.selector) {
         activeELements.forEach((el: Element) => {
           el.classList.add('goal');
           setTimeout(() => {
@@ -227,7 +230,7 @@ class Level {
   }
 
   public getSelector(): string {
-    return levelsConfig[this.currentLevel - 1].selector;
+    return levelsConfig[this.currentLevel - 1]?.selector;
   }
 
   public win():void {
@@ -268,6 +271,7 @@ class Level {
         this.storage.setLevelsPassedWithHelp([]);
         this.storage.setPassedLevels([]);
         this.render(1);
+        this.storage.clearLocalStorage();
         popupWrapper.classList.remove('popup-wrapper_active');
       });
     }
