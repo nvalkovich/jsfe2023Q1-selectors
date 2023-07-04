@@ -447,7 +447,7 @@ const levelsConfig: Level[] = [
     level: 8,
     goalElementsNumber: 1,
     task: 'Select the sausage on the first plate',
-    selector: 'plate:first-child > bread > sausage',
+    selector: 'plate:first-child>bread>sausage',
     html: {
       element: 'div',
       className: 'picnic__blanket picnic-blanket',

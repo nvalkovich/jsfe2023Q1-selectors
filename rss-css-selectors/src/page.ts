@@ -148,7 +148,8 @@ class Page {
     markup.className = 'markup';
     htmlViewField.append(markup);
 
-    for (let i = 1; i <= 20; i += 1) {
+    const basicLinesAmount = 20;
+    for (let i = 1; i <= basicLinesAmount; i += 1) {
       cssContentLineNumbers.innerHTML += `${i}<br>`;
       htmlViewerLineNumbers.innerHTML += `${i}<br>`;
     }
