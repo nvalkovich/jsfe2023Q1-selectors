@@ -32,7 +32,7 @@ class Level {
     const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
     if (taskTitle) {
       const taskText = levelsConfig[level - 1].task;
-      taskTitle.innerHTML = `${taskText}`;
+      taskTitle.innerHTML = taskText;
     }
 
     const picnic: HTMLDivElement | null = document.querySelector('.picnic');
@@ -62,7 +62,7 @@ class Level {
 
   public checkSelector(value: string): void {
     if (!value) return;
-    const selectedELements: NodeListOf<Element> = document.querySelectorAll(`${value}`);
+    const selectedELements: NodeListOf<Element> = document.querySelectorAll(value);
     const codeContainer: HTMLElement | null = document.querySelector('.code-container');
 
     if (selectedELements.length > 0) {
@@ -123,7 +123,7 @@ class Level {
 
   private createHTML(data: Markup, parentElement: HTMLElement | null): void {
     const config = Object.keys(data);
-    const element = document.createElement(`${data.element}`);
+    const element = document.createElement(data.element);
     if (config.includes('className')) {
       element.className = `${data.className}`;
     }
@@ -133,13 +133,13 @@ class Level {
     if (config.includes('attributes')) {
       const { attributes } = data;
       attributes?.forEach((attr) => {
-        element.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+        element.setAttribute(attr.attributeName, attr.attributeValue);
       });
     }
     if (config.includes('commonAtributes')) {
       const { commonAtributes } = data;
       commonAtributes?.forEach((attr) => {
-        element.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+        element.setAttribute(attr.attributeName, attr.attributeValue);
       });
     }
 
@@ -165,8 +165,8 @@ class Level {
     }
     const div = document.createElement('div');
     commonAtributes?.forEach((attr) => {
-      div.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
-      parent.setAttribute(`${attr.attributeName}`, `${attr.attributeValue}`);
+      div.setAttribute(attr.attributeName, attr.attributeValue);
+      parent.setAttribute(attr.attributeName, attr.attributeValue);
     });
     div.className = 'markup__item';
     parent.classList.add('markup__container');

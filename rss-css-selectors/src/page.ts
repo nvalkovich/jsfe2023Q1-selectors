@@ -241,7 +241,7 @@ class Page {
     const createCssMarkup = ():void => {
       textareaCode.innerHTML = '';
       textareaCode.innerHTML = hljs.highlight(
-        `${textarea.value}`,
+        textarea.value,
         {
           language: 'css',
         },
@@ -270,9 +270,9 @@ class Page {
         if (i >= splittedValue.length) {
           clearInterval(addChar);
         } else {
-          result += `${splittedValue[i]}`;
+          result += splittedValue[i];
           textareaCode.innerHTML = hljs.highlight(
-            `${result}`,
+            result,
             {
               language: 'css',
             },
