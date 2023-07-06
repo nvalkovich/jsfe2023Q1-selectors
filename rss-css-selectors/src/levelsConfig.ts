@@ -181,7 +181,7 @@ const levelsConfig: Level[] = [
           element: 'orange',
           id: 'sliced-orange',
           className: 'orange sliced-orange',
-          toWiev: { selector: 'className', value: 'sliced-orange' },
+          toWiev: { selector: 'id', value: 'sliced-orange' },
           attributes: [
             { attributeName: 'animation', attributeValue: 'active-element' },
             { attributeName: 'state', attributeValue: 'active' },
