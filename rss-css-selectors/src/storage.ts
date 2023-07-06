@@ -1,39 +1,35 @@
-class Storage {
-  private readonly levelKey;
+const levelKey = 'level';
+const passedLevelsKey = 'passedLevelsKey';
+const helpPassedLevelsKey = 'helpPassedLevels';
 
-  private readonly passedLevelsKey;
+const setLevel = (level: number): void => localStorage.setItem(levelKey, level.toString());
+const getLevel = (): number => (Number(localStorage.getItem(levelKey)) || 1);
 
-  private readonly helpPassedLevelsKey;
+const setPassedLevels = (passedLevels:number[]): void => localStorage.setItem(
+  passedLevelsKey,
+  JSON.stringify(passedLevels),
+);
+const getPassedLevels = ():number[] => JSON.parse(
+  localStorage.getItem(passedLevelsKey) as string,
+) || [];
 
-  constructor() {
-    this.levelKey = 'level';
-    this.passedLevelsKey = 'passedLevelsKey';
-    this.helpPassedLevelsKey = 'helpPassedLevels';
-  }
+const setLevelsPassedWithHelp = (levelsPassedWithHelp:number[]): void => localStorage.setItem(
+  helpPassedLevelsKey,
+  JSON.stringify(levelsPassedWithHelp),
+);
 
-  public setLevel = (level: number): void => localStorage.setItem(this.levelKey, level.toString());
+const getLevelsPassedWithHelp = ():number[] => JSON.parse(
+  localStorage.getItem(helpPassedLevelsKey) as string,
+) || [];
 
-  public getLevel = (): number => +(localStorage.getItem(this.levelKey) || 1);
+const clearLocalStorage = (): void => localStorage.clear();
 
-  public setPassedLevels = (passedLevels:number[]): void => localStorage.setItem(
-    this.passedLevelsKey,
-    JSON.stringify(passedLevels),
-  );
-
-  public getPassedLevels = ():number[] => JSON.parse(
-    localStorage.getItem(this.passedLevelsKey) as string,
-  ) || [];
-
-  public setLevelsPassedWithHelp = (levelsPassedWithHelp:number[]): void => localStorage.setItem(
-    this.helpPassedLevelsKey,
-    JSON.stringify(levelsPassedWithHelp),
-  );
-
-  public getLevelsPassedWithHelp = ():number[] => JSON.parse(
-    localStorage.getItem(this.helpPassedLevelsKey) as string,
-  ) || [];
-
-  public clearLocalStorage = (): void => localStorage.clear();
-}
-
-export default Storage;
+export default {
+  setLevel,
+  getLevel,
+  setPassedLevels,
+  getPassedLevels,
+  setLevelsPassedWithHelp,
+  getLevelsPassedWithHelp,
+  clearLocalStorage,
+};

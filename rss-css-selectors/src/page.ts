@@ -2,18 +2,16 @@ import hljs from 'highlight.js/lib/core';
 import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
-import Storage from './storage';
+import storage from './storage';
 
 hljs.registerLanguage('css', css);
 
 class Page {
   private readonly level: Level;
 
-  private storage = new Storage();
+  private passedLevels = storage.getPassedLevels();
 
-  private passedLevels = this.storage.getPassedLevels();
-
-  private helpPassedLevel = this.storage.getLevelsPassedWithHelp();
+  private helpPassedLevel = storage.getLevelsPassedWithHelp();
 
   constructor() {
     this.level = new Level();
@@ -205,14 +203,12 @@ class Page {
       levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
-    const { passedLevels } = this;
-    passedLevels.forEach((level) => {
+    this.passedLevels.forEach((level) => {
       const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
       passedLevellistItem?.classList.add('passed-level');
     });
 
-    const { helpPassedLevel } = this;
-    helpPassedLevel.forEach((level) => {
+    this.helpPassedLevel.forEach((level) => {
       const helpPassedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
       helpPassedLevellistItem?.setAttribute('with-help', 'true');
     });
@@ -229,9 +225,9 @@ class Page {
         passedLevelsListItems.forEach((listItem) => {
           listItem.classList.remove('passed-level');
         });
-        this.storage.setPassedLevels([]);
+        storage.setPassedLevels([]);
         this.level.render(1);
-        this.storage.clearLocalStorage();
+        storage.clearLocalStorage();
       }
     });
 

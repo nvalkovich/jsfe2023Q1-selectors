@@ -1,19 +1,17 @@
 import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
-import Storage from './storage';
 import { Markup, Attributes } from './types/interfaces';
+import storage from './storage';
 
 hljs.registerLanguage('xml', xml);
 
 class Level {
-  private storage = new Storage();
+  private currentLevel = storage.getLevel();
 
-  private currentLevel = this.storage.getLevel();
+  private passedLevels = storage.getPassedLevels();
 
-  private passedLevels = this.storage.getPassedLevels();
-
-  private helpPassedLevels = this.storage.getLevelsPassedWithHelp();
+  private helpPassedLevels = storage.getLevelsPassedWithHelp();
 
   private nesting = 0;
 
@@ -57,9 +55,9 @@ class Level {
     newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
-    this.passedLevelsArray = this.storage.getPassedLevels();
-    this.helpPassedLevelsArray = this.storage.getLevelsPassedWithHelp();
-    this.storage.setLevel(this.currentLevel);
+    this.passedLevelsArray = storage.getPassedLevels();
+    this.helpPassedLevelsArray = storage.getLevelsPassedWithHelp();
+    storage.setLevel(this.currentLevel);
   }
 
   public checkSelector(value: string): void {
@@ -103,10 +101,10 @@ class Level {
             this.helpPassedLevelsArray.push(this.currentLevel);
           }
           this.passedLevelsArray.push(this.currentLevel);
-          this.storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
-          this.storage.setPassedLevels(this.passedLevelsArray);
+          storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
+          storage.setPassedLevels(this.passedLevelsArray);
           this.currentLevel += 1;
-          if (this.storage.getPassedLevels().length < levelsConfig.length) {
+          if (storage.getPassedLevels().length < levelsConfig.length) {
             setTimeout(() => {
               this.render(this.currentLevel);
             }, 700);
@@ -265,10 +263,10 @@ class Level {
         passedLevelsListItems.forEach((listItem) => {
           listItem.classList.remove('passed-level');
         });
-        this.storage.setLevelsPassedWithHelp([]);
-        this.storage.setPassedLevels([]);
+        storage.setLevelsPassedWithHelp([]);
+        storage.setPassedLevels([]);
         this.render(1);
-        this.storage.clearLocalStorage();
+        storage.clearLocalStorage();
         popupWrapper.classList.remove('popup-wrapper_active');
       });
     }
