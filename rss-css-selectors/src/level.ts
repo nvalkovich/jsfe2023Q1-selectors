@@ -3,6 +3,7 @@ import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from './types/interfaces';
 import storage from './storage';
+import { DOMElements, DOMElementCollections } from './types/types';
 
 hljs.registerLanguage('xml', xml);
 
@@ -19,38 +20,62 @@ class Level {
 
   private helpPassedLevelsArray: number[] = this.helpPassedLevels;
 
+  private static getDOMElements(): DOMElements {
+    return {
+      textarea: Level.findElement<HTMLTextAreaElement>('.textarea'),
+      textareaCode: Level.findElement<HTMLElement>('.textarea-markup__code'),
+      taskTitle: Level.findElement<HTMLHeadingElement>('.main-wrapper__task'),
+      picnic: Level.findElement<HTMLDivElement>('.picnic'),
+      markup: Level.findElement<HTMLDivElement>('.markup'),
+      codeContainer: Level.findElement<HTMLElement>('.code-container'),
+    };
+  }
+
+  private static getDOMElementCollections():DOMElementCollections {
+    return {
+      passedLevelsListItems: Level.findElementCollections('.passed-level'),
+    };
+  }
+
+  public static findElement<T extends Element>(selector: string) : T {
+    const element = document.querySelector<T>(selector);
+    if (!element) {
+      throw new Error(`Element for selector "${selector}" is not found`);
+    }
+    return element;
+  }
+
+  public static findElementCollections(selector: string): NodeListOf<Element> {
+    const collection = document.querySelectorAll(selector);
+    if (!collection) {
+      throw new Error(`Elements for selector "${selector}" is not found`);
+    }
+    return collection;
+  }
+
   public render(level: number): void {
     if (level > levelsConfig.length) return;
-    const textarea: HTMLTextAreaElement | null = document.querySelector('.textarea');
-    const textareaCode: HTMLElement | null = document.querySelector('.textarea-markup__code');
 
-    if (textarea && textareaCode) {
-      textarea.value = '';
-      textareaCode.innerHTML = 'Type in a CSS selector';
-    }
+    const elementsCollection = Level.getDOMElements();
+    const {
+      textarea, textareaCode, taskTitle, picnic, markup,
+    } = elementsCollection;
 
-    const taskTitle: HTMLHeadingElement | null = document.querySelector('.main-wrapper__task');
-    if (taskTitle) {
-      const taskText = levelsConfig[level - 1].task;
-      taskTitle.innerHTML = taskText;
-    }
+    const taskText = levelsConfig[level - 1].task;
 
-    const picnic: HTMLDivElement | null = document.querySelector('.picnic');
-    const markup: HTMLDivElement | null = document.querySelector('.markup');
-    if (picnic && markup) {
-      picnic.innerHTML = '';
-      markup.innerHTML = '';
-    }
+    textarea.value = '';
+    textareaCode.innerHTML = 'Type in a CSS selector';
+    taskTitle.innerHTML = taskText;
+    picnic.innerHTML = '';
+    markup.innerHTML = '';
 
     this.createHTML(levelsConfig[level - 1].html, picnic);
 
-    if (markup) {
-      this.createMarkup(levelsConfig[level - 1].html, markup);
+    this.createMarkup(levelsConfig[level - 1].html, markup);
+    const currentlistItem = document.querySelector('.current-level');
+    if (currentlistItem) {
+      currentlistItem.classList.remove('current-level');
     }
-
-    const oldCurrentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
-    oldCurrentlistItem?.classList.remove('current-level');
-
     const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
     newCurrentlistItem?.classList.add('current-level');
 
@@ -63,7 +88,8 @@ class Level {
   public checkSelector(value: string): void {
     if (!value) return;
     const selectedELements: NodeListOf<Element> = document.querySelectorAll(value);
-    const codeContainer: HTMLElement | null = document.querySelector('.code-container');
+    const elementsCollection = Level.getDOMElements();
+    const { codeContainer } = elementsCollection;
 
     if (selectedELements.length > 0) {
       const activeELements = [];
@@ -85,8 +111,8 @@ class Level {
         }
       }
       if ((activeELements.length === selectedELements.length
-          && selectedELements.length === levelsConfig[this.currentLevel - 1]?.goalElementsNumber)
-          || value === levelsConfig[this.currentLevel - 1]?.selector) {
+        && selectedELements.length === levelsConfig[this.currentLevel - 1]?.goalElementsNumber)
+        || value === levelsConfig[this.currentLevel - 1]?.selector) {
         activeELements.forEach((el: Element) => {
           el.classList.add('goal');
           setTimeout(() => {
@@ -229,7 +255,7 @@ class Level {
     return levelsConfig[this.currentLevel - 1]?.selector;
   }
 
-  public win():void {
+  public win(): void {
     const popupWrapper = document.createElement('div');
     popupWrapper.className = 'popup-wrapper popup-wrapper_active';
     document.body.append(popupWrapper);
@@ -259,7 +285,8 @@ class Level {
 
     if (popupBtn) {
       popupBtn.addEventListener('click', (): void => {
-        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
+        const DOMCollections = Level.getDOMElementCollections();
+        const { passedLevelsListItems } = DOMCollections;
         passedLevelsListItems.forEach((listItem) => {
           listItem.classList.remove('passed-level');
         });
