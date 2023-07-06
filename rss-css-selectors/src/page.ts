@@ -184,19 +184,19 @@ class Page {
     levelsContainer.className = 'levels';
     levelsWrapper.append(levelsContainer);
 
-    const levelsTitle: HTMLHeadingElement | null = document.createElement('h2');
+    const levelsTitle: HTMLHeadingElement = document.createElement('h2');
     levelsTitle.className = 'levels__title';
     levelsTitle.innerHTML = 'Levels';
     levelsContainer.append(levelsTitle);
 
-    const levelsList: HTMLUListElement | null = document.createElement('ul');
+    const levelsList: HTMLUListElement = document.createElement('ul');
     levelsList.className = 'levels__list levels-list';
     levelsContainer.append(levelsList);
 
     const levelsNumber: number = levelsConfig.length;
 
     for (let i = 0; i < levelsNumber; i += 1) {
-      const levelsItem: HTMLLIElement | null = document.createElement('li');
+      const levelsItem: HTMLLIElement = document.createElement('li');
       levelsItem.className = 'levels-list__item';
       levelsItem.innerHTML += `Level ${levelsConfig[i].level}`;
       levelsList.append(levelsItem);
