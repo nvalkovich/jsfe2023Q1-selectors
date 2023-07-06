@@ -56,10 +56,10 @@ class Level {
   public render(level: number): void {
     if (level > levelsConfig.length) return;
 
-    const elementsCollection = Level.getDOMElements();
+    const DOMElementsMap = Level.getDOMElements();
     const {
       textarea, textareaCode, taskTitle, picnic, markup,
-    } = elementsCollection;
+    } = DOMElementsMap;
 
     const taskText = levelsConfig[level - 1].task;
 
@@ -85,71 +85,102 @@ class Level {
     storage.setLevel(this.currentLevel);
   }
 
-  public checkSelector(value: string): void {
-    if (!value) return;
-    const selectedELements: NodeListOf<Element> = document.querySelectorAll(value);
-    const elementsCollection = Level.getDOMElements();
-    const { codeContainer } = elementsCollection;
+  public static shakeElement(element: Element) :void {
+    if (element.hasAttribute('state')) {
+      element.setAttribute('state', 'unactive');
+      element.classList.add('shaking');
+      setTimeout(() => {
+        element.classList.remove('shaking');
+        element.setAttribute('state', 'active');
+      }, 300);
+    } else {
+      element.classList.add('shaking');
+      setTimeout(() => {
+        element.classList.remove('shaking');
+      }, 300);
+    }
+  }
 
-    if (selectedELements.length > 0) {
-      const activeELements = [];
-      for (let i = 0; i < selectedELements.length; i += 1) {
-        const element = selectedELements[i];
-        if (element.hasAttribute('state')) {
-          element.setAttribute('state', 'unactive');
-          element.classList.add('shaking');
-          setTimeout(() => {
-            element.classList.remove('shaking');
-            element.setAttribute('state', 'active');
-          }, 300);
-          activeELements.push(element);
-        } else if (!element.hasAttribute('state')) {
-          element.classList.add('shaking');
-          setTimeout(() => {
-            element.classList.remove('shaking');
-          }, 300);
-        }
+  public static shakeContainer() :void {
+    const DOMElementsMap = Level.getDOMElements();
+    const { codeContainer } = DOMElementsMap;
+    codeContainer?.classList.add('shaking');
+    setTimeout(() => {
+      codeContainer?.classList.remove('shaking');
+    }, 300);
+  }
+
+  public static increaseGoalElement(element: Element) :void {
+    element.classList.add('goal');
+    setTimeout(() => {
+      element.classList.remove('goal');
+    }, 300);
+  }
+
+  public moveToNextLevel() :void {
+    const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${this.currentLevel}']`);
+    passedLevellistItem?.classList.add('passed-level');
+
+    if (this.passedLevelsArray.includes(this.currentLevel)) {
+      return;
+    }
+
+    if (passedLevellistItem?.hasAttribute('with-help')) {
+      this.helpPassedLevelsArray.push(this.currentLevel);
+    }
+
+    this.passedLevelsArray.push(this.currentLevel);
+    storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
+    storage.setPassedLevels(this.passedLevelsArray);
+
+    this.currentLevel += 1;
+
+    if (storage.getPassedLevels().length < levelsConfig.length) {
+      setTimeout(() => {
+        this.render(this.currentLevel);
+      }, 700);
+    } else {
+      this.win();
+    }
+  }
+
+  public checkSelector(value: string): void {
+    if (!value) {
+      Level.shakeContainer();
+      return;
+    }
+
+    const selectedELements: NodeListOf<Element> = document.querySelectorAll(value);
+
+    if (!selectedELements.length) {
+      Level.shakeContainer();
+      return;
+    }
+
+    const activeELements = [];
+    for (let i = 0; i < selectedELements.length; i += 1) {
+      const element = selectedELements[i];
+      if (element.hasAttribute('state')) {
+        activeELements.push(element);
       }
-      if ((activeELements.length === selectedELements.length
+      Level.shakeElement(element);
+    }
+
+    if ((activeELements.length === selectedELements.length
         && selectedELements.length === levelsConfig[this.currentLevel - 1]?.goalElementsNumber)
         || value === levelsConfig[this.currentLevel - 1]?.selector) {
-        activeELements.forEach((el: Element) => {
-          el.classList.add('goal');
-          setTimeout(() => {
-            el.classList.remove('goal');
-          }, 300);
-        });
+      activeELements.forEach((el: Element) => {
+        Level.increaseGoalElement(el);
+      });
 
-        const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${this.currentLevel}']`);
-        passedLevellistItem?.classList.add('passed-level');
-        if (!this.passedLevelsArray.includes(this.currentLevel)) {
-          if (passedLevellistItem?.hasAttribute('with-help')) {
-            this.helpPassedLevelsArray.push(this.currentLevel);
-          }
-          this.passedLevelsArray.push(this.currentLevel);
-          storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
-          storage.setPassedLevels(this.passedLevelsArray);
-          this.currentLevel += 1;
-          if (storage.getPassedLevels().length < levelsConfig.length) {
-            setTimeout(() => {
-              this.render(this.currentLevel);
-            }, 700);
-          } else {
-            this.win();
-          }
-        }
-      }
-    } else {
-      codeContainer?.classList.add('shaking');
-      setTimeout(() => {
-        codeContainer?.classList.remove('shaking');
-      }, 300);
+      this.moveToNextLevel();
     }
   }
 
   private createHTML(data: Markup, parentElement: HTMLElement | null): void {
     const config = Object.keys(data);
     const element = document.createElement(data.element);
+
     if (config.includes('className')) {
       element.className = `${data.className}`;
     }
@@ -189,11 +220,14 @@ class Level {
     if (isClosed) {
       this.nesting = this.nesting - 2 >= 0 ? this.nesting - 2 : 0;
     }
+
     const div = document.createElement('div');
+
     commonAtributes?.forEach((attr) => {
       div.setAttribute(attr.attributeName, attr.attributeValue);
       parent.setAttribute(attr.attributeName, attr.attributeValue);
     });
+
     div.className = 'markup__item';
     parent.classList.add('markup__container');
     parent.append(div);
@@ -255,6 +289,18 @@ class Level {
     return levelsConfig[this.currentLevel - 1]?.selector;
   }
 
+  public resetProgress(): void {
+    const DOMCollections = Level.getDOMElementCollections();
+    const { passedLevelsListItems } = DOMCollections;
+
+    passedLevelsListItems.forEach((listItem) => {
+      listItem.classList.remove('passed-level');
+    });
+
+    this.render(1);
+    storage.clearLocalStorage();
+  }
+
   public win(): void {
     const popupWrapper = document.createElement('div');
     popupWrapper.className = 'popup-wrapper popup-wrapper_active';
@@ -285,15 +331,7 @@ class Level {
 
     if (popupBtn) {
       popupBtn.addEventListener('click', (): void => {
-        const DOMCollections = Level.getDOMElementCollections();
-        const { passedLevelsListItems } = DOMCollections;
-        passedLevelsListItems.forEach((listItem) => {
-          listItem.classList.remove('passed-level');
-        });
-        storage.setLevelsPassedWithHelp([]);
-        storage.setPassedLevels([]);
-        this.render(1);
-        storage.clearLocalStorage();
+        this.resetProgress();
         popupWrapper.classList.remove('popup-wrapper_active');
       });
     }

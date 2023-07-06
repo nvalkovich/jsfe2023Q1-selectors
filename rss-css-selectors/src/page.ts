@@ -221,13 +221,7 @@ class Page {
     levelsResetBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;
       if (target instanceof HTMLElement) {
-        const passedLevelsListItems: NodeListOf<Element> = document.querySelectorAll('.passed-level');
-        passedLevelsListItems.forEach((listItem) => {
-          listItem.classList.remove('passed-level');
-        });
-        storage.setPassedLevels([]);
-        this.level.render(1);
-        storage.clearLocalStorage();
+        this.level.resetProgress();
       }
     });
 
