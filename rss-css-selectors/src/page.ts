@@ -364,11 +364,6 @@ class Page {
       if (
         target instanceof HTMLElement && target.classList.contains('levels-list__item')
       ) {
-        const currentlistItem: HTMLLIElement | null = document.querySelector('.current-level');
-        if (currentlistItem) {
-          currentlistItem.classList.remove('current-level');
-        }
-
         this.level.render(Number(target.getAttribute('level')));
       }
     });
