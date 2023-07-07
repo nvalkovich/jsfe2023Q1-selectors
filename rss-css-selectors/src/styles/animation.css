@@ -21,21 +21,21 @@
 @keyframes shaking-motion {
   0%, 
   20% {
-		transform: translate3d(0, 0, 0);
-	}
-	10%, 
+    transform: translate3d(0, 0, 0);
+  }
+  10%, 
   14%, 
   18%, 
   2%, 
   6% {
-		transform: translate3d(-2px, 0, 0);
-	}
-	12%, 
+    transform: translate3d(-2px, 0, 0);
+  }
+  12%, 
   16%, 
   4%, 
   8% {
-		transform: translate3d(2px, 0, 0);
-	}
+    transform: translate3d(2px, 0, 0);
+  }
 }
 
 @keyframes goal {
