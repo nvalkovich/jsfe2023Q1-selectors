@@ -1,9 +1,9 @@
 import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
-import { Markup, Attributes } from './types/interfaces';
+import { Markup, Attributes } from '../types/interfaces';
 import storage from './storage';
-import { DOMElements, DOMElementCollections } from './types/types';
+import { DOMElements, DOMElementCollections } from '../types/types';
 
 hljs.registerLanguage('xml', xml);
 

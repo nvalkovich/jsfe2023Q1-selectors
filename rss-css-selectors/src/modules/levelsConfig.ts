@@ -1,4 +1,4 @@
-import { Level } from './types/interfaces';
+import { Level } from '../types/interfaces';
 
 const levelsConfig: Level[] = [
   {
