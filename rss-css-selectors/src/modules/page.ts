@@ -9,9 +9,9 @@ hljs.registerLanguage('css', css);
 class Page {
   private readonly level: Level;
 
-  private passedLevels = storage.getPassedLevels();
+  private passedLevels = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
 
-  private helpPassedLevel = storage.getLevelsPassedWithHelp();
+  private helpPassedLevel = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
 
   constructor() {
     this.level = new Level();

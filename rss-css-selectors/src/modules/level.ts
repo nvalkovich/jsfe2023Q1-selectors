@@ -3,16 +3,16 @@ import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from '../types/interfaces';
 import storage from './storage';
-import { DOMElements, DOMElementCollections } from '../types/types';
+import { DOMElements } from '../types/types';
 
 hljs.registerLanguage('xml', xml);
 
 class Level {
-  private currentLevel = storage.getLevel();
+  private currentLevel = Number(storage.parseLocalStorage('level')) || 1;
 
-  private passedLevels = storage.getPassedLevels();
+  private passedLevels = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
 
-  private helpPassedLevels = storage.getLevelsPassedWithHelp();
+  private helpPassedLevels = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
 
   private nesting = 0;
 
@@ -28,12 +28,6 @@ class Level {
       picnic: Level.findElement<HTMLDivElement>('.picnic'),
       markup: Level.findElement<HTMLDivElement>('.markup'),
       codeContainer: Level.findElement<HTMLElement>('.code-container'),
-    };
-  }
-
-  private static getDOMElementCollections():DOMElementCollections {
-    return {
-      passedLevelsListItems: Level.findElementCollections('.passed-level'),
     };
   }
 
@@ -80,9 +74,9 @@ class Level {
     newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
-    this.passedLevelsArray = storage.getPassedLevels();
-    this.helpPassedLevelsArray = storage.getLevelsPassedWithHelp();
-    storage.setLevel(this.currentLevel);
+    this.passedLevelsArray = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
+    this.helpPassedLevelsArray = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
+    storage.stringifyLocalStorage('level', this.currentLevel);
   }
 
   public static shakeElement(element: Element) :void {
@@ -130,12 +124,13 @@ class Level {
     }
 
     this.passedLevelsArray.push(this.currentLevel);
-    storage.setLevelsPassedWithHelp(this.helpPassedLevelsArray);
-    storage.setPassedLevels(this.passedLevelsArray);
+    storage.stringifyLocalStorage('helpPassedLevels', this.helpPassedLevelsArray);
+    storage.stringifyLocalStorage('passedLevelsKey', this.passedLevelsArray);
+    this.passedLevelsArray = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
 
     this.currentLevel += 1;
 
-    if (storage.getPassedLevels().length < levelsConfig.length) {
+    if (this.passedLevelsArray.length < levelsConfig.length) {
       setTimeout(() => {
         this.render(this.currentLevel);
       }, 700);
@@ -290,15 +285,19 @@ class Level {
   }
 
   public resetProgress(): void {
-    const DOMCollections = Level.getDOMElementCollections();
-    const { passedLevelsListItems } = DOMCollections;
+    const passedLevelsListItems = Level.findElementCollections('.passed-level');
+    const helpPassedLevelsListItems = Level.findElementCollections('[with-help = "true"]');
 
     passedLevelsListItems.forEach((listItem) => {
       listItem.classList.remove('passed-level');
     });
 
-    this.render(1);
+    helpPassedLevelsListItems.forEach((listItem) => {
+      listItem.removeAttribute('with-help');
+    });
+
     storage.clearLocalStorage();
+    this.render(Number(storage.parseLocalStorage('level') || 1));
   }
 
   public win(): void {

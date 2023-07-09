@@ -1,35 +1,31 @@
-const levelKey = 'level';
-const passedLevelsKey = 'passedLevelsKey';
-const helpPassedLevelsKey = 'helpPassedLevels';
+const getLocalStorage = (key: string): string | null => localStorage.getItem(key);
 
-const setLevel = (level: number): void => localStorage.setItem(levelKey, level.toString());
-const getLevel = (): number => (Number(localStorage.getItem(levelKey)) || 1);
+const parseLocalStorage = <T>(key: string): T | null => {
+  const value = getLocalStorage(key);
+  if (value === null) return value;
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    throw new Error();
+  }
+};
 
-const setPassedLevels = (passedLevels:number[]): void => localStorage.setItem(
-  passedLevelsKey,
-  JSON.stringify(passedLevels),
-);
-const getPassedLevels = ():number[] => JSON.parse(
-  localStorage.getItem(passedLevelsKey) as string,
-) || [];
+const setLocalStorage = (key: string, value: string): void => {
+  localStorage.setItem(
+    key,
+    value,
+  );
+};
 
-const setLevelsPassedWithHelp = (levelsPassedWithHelp:number[]): void => localStorage.setItem(
-  helpPassedLevelsKey,
-  JSON.stringify(levelsPassedWithHelp),
-);
-
-const getLevelsPassedWithHelp = ():number[] => JSON.parse(
-  localStorage.getItem(helpPassedLevelsKey) as string,
-) || [];
+const stringifyLocalStorage = <T>(key: string, value: T): void => {
+  const string = JSON.stringify(value);
+  setLocalStorage(key, string);
+};
 
 const clearLocalStorage = (): void => localStorage.clear();
 
 export default {
-  setLevel,
-  getLevel,
-  setPassedLevels,
-  getPassedLevels,
-  setLevelsPassedWithHelp,
-  getLevelsPassedWithHelp,
+  parseLocalStorage,
+  stringifyLocalStorage,
   clearLocalStorage,
 };

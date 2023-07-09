@@ -9,4 +9,4 @@ const page = new Page();
 const level = new Level();
 
 page.render();
-level.render(storage.getLevel());
+level.render(Number(storage.parseLocalStorage('level') || 1));
