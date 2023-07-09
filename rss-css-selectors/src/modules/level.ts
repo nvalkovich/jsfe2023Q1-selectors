@@ -92,7 +92,7 @@ class Level {
   public static shakeContainer() :void {
     const codeContainer = Level.findElement<HTMLElement>('.code-container');
     setTimeout(() => {
-      codeContainer?.classList.remove('shaking');
+      codeContainer.classList.remove('shaking');
     }, 300);
   }
 
@@ -191,7 +191,7 @@ class Level {
     parentElement?.append(element);
 
     if (data.children !== null) {
-      data.children?.forEach((child) => {
+      data.children.forEach((child) => {
         this.createHTML(child, element);
       });
     }
@@ -219,7 +219,7 @@ class Level {
     parent.classList.add('markup__container');
     parent.append(div);
     const pre = document.createElement('pre');
-    div?.append(pre);
+    div.append(pre);
     const code = document.createElement('code');
     pre.append(code);
 
@@ -258,7 +258,7 @@ class Level {
     if (data.children) {
       content += '>';
       this.addMarkupItem(content, container, Boolean(data.children), false, data.commonAtributes);
-      data.children?.forEach((child) => {
+      data.children.forEach((child) => {
         this.createMarkup(child, container);
       });
     } else if (!data.children) {
@@ -273,7 +273,7 @@ class Level {
   }
 
   public getSelector(): string {
-    return levelsConfig[this.currentLevel - 1]?.selector;
+    return levelsConfig[this.currentLevel - 1].selector;
   }
 
   public resetProgress(): void {

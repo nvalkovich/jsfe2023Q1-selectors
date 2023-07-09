@@ -286,14 +286,14 @@ class Page {
 
     const createSelector = (element: HTMLElement): string => {
       let selector = '';
-      if (element?.hasAttribute('markup')) {
-        selector += `[markup = '${element?.getAttribute('markup')}']`;
+      if (element.hasAttribute('markup')) {
+        selector += `[markup = '${element.getAttribute('markup')}']`;
       }
-      if (element?.hasAttribute('order')) {
-        selector += `[order = '${element?.getAttribute('order')}']`;
+      if (element.hasAttribute('order')) {
+        selector += `[order = '${element.getAttribute('order')}']`;
       }
-      if (element?.hasAttribute('location')) {
-        selector += `[location = '${element?.getAttribute('location')}']`;
+      if (element.hasAttribute('location')) {
+        selector += `[location = '${element.getAttribute('location')}']`;
       }
       return selector;
     };
@@ -309,7 +309,7 @@ class Page {
           el.classList.add('selected-markup');
         } else if (el.classList.contains('picnic__item')) {
           el.classList.add('selected-element');
-          el.setAttribute('tooltip', `${container?.getAttribute('markup')}`);
+          el.setAttribute('tooltip', `${container.getAttribute('markup')}`);
           if (el.hasAttribute('state')) {
             el.setAttribute('state', 'stop');
           }
