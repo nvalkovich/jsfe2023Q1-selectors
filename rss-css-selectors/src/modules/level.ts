@@ -36,7 +36,9 @@ class Level {
   }
 
   public render(level: number): void {
-    if (level > levelsConfig.length) return;
+    if (level > levelsConfig.length) {
+      return;
+    }
 
     const taskText = levelsConfig[level - 1].task;
 
