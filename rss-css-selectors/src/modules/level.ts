@@ -3,7 +3,6 @@ import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from '../types/interfaces';
 import storage from './storage';
-import { DOMElements } from '../types/types';
 
 hljs.registerLanguage('xml', xml);
 
@@ -19,17 +18,6 @@ class Level {
   private passedLevelsArray: number[] = this.passedLevels;
 
   private helpPassedLevelsArray: number[] = this.helpPassedLevels;
-
-  private static getDOMElements(): DOMElements {
-    return {
-      textarea: Level.findElement<HTMLTextAreaElement>('.textarea'),
-      textareaCode: Level.findElement<HTMLElement>('.textarea-markup__code'),
-      taskTitle: Level.findElement<HTMLHeadingElement>('.main-wrapper__task'),
-      picnic: Level.findElement<HTMLDivElement>('.picnic'),
-      markup: Level.findElement<HTMLDivElement>('.markup'),
-      codeContainer: Level.findElement<HTMLElement>('.code-container'),
-    };
-  }
 
   public static findElement<T extends Element>(selector: string) : T {
     const element = document.querySelector<T>(selector);
@@ -50,17 +38,21 @@ class Level {
   public render(level: number): void {
     if (level > levelsConfig.length) return;
 
-    const DOMElementsMap = Level.getDOMElements();
-    const {
-      textarea, textareaCode, taskTitle, picnic, markup,
-    } = DOMElementsMap;
-
     const taskText = levelsConfig[level - 1].task;
 
+    const textarea = Level.findElement<HTMLTextAreaElement>('.textarea');
     textarea.value = '';
+
+    const textareaCode = Level.findElement<HTMLElement>('.textarea-markup__code');
     textareaCode.innerHTML = 'Type in a CSS selector';
+
+    const taskTitle = Level.findElement<HTMLHeadingElement>('.main-wrapper__task');
     taskTitle.innerHTML = taskText;
+
+    const picnic = Level.findElement<HTMLDivElement>('.picnic');
     picnic.innerHTML = '';
+
+    const markup = Level.findElement<HTMLDivElement>('.markup');
     markup.innerHTML = '';
 
     this.createHTML(levelsConfig[level - 1].html, picnic);
@@ -96,9 +88,7 @@ class Level {
   }
 
   public static shakeContainer() :void {
-    const DOMElementsMap = Level.getDOMElements();
-    const { codeContainer } = DOMElementsMap;
-    codeContainer?.classList.add('shaking');
+    const codeContainer = Level.findElement<HTMLElement>('.code-container');
     setTimeout(() => {
       codeContainer?.classList.remove('shaking');
     }, 300);
