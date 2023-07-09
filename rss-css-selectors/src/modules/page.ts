@@ -245,7 +245,7 @@ class Page {
 
     textarea.addEventListener('input', ():void => {
       createCssMarkup();
-      if (textareaCode.innerHTML.length === 0) {
+      if (!textareaCode.innerHTML.length) {
         textareaCode.innerHTML = 'Type in a CSS selector';
       }
     });
@@ -300,7 +300,7 @@ class Page {
     };
 
     const selectElements = (container: HTMLElement, selector: string): void => {
-      if (selector.length === 0) {
+      if (selector.length) {
         return;
       }
       const elements = helpers.findElementCollections(selector);
