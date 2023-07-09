@@ -9,7 +9,7 @@
     "lint": "eslint src"
   },
   "keywords": [],
-  "author": "",
+  "author": "Anastasiya Valkovich",
   "license": "ISC",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.60.0",
