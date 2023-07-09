@@ -3,6 +3,7 @@ import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
 import storage from './storage';
+import helpers from './helpers';
 
 hljs.registerLanguage('css', css);
 
@@ -18,11 +19,11 @@ class Page {
   }
 
   public render(): void {
-    const body: HTMLBodyElement | null = document.querySelector('body');
+    const body = helpers.findElement<HTMLBodyElement>('body');
 
     const mainWrapper: HTMLDivElement = document.createElement('div');
     mainWrapper.className = 'main-wrapper';
-    body?.append(mainWrapper);
+    body.append(mainWrapper);
 
     const header: HTMLElement = document.createElement('header');
     header.className = 'main-wrapper__header header';
@@ -204,12 +205,12 @@ class Page {
     }
 
     this.passedLevels.forEach((level) => {
-      const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
-      passedLevellistItem?.classList.add('passed-level');
+      const passedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
+      passedLevellistItem.classList.add('passed-level');
     });
 
     this.helpPassedLevel.forEach((level) => {
-      const helpPassedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+      const helpPassedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
       helpPassedLevellistItem?.setAttribute('with-help', 'true');
     });
 
@@ -278,8 +279,8 @@ class Page {
     };
 
     helpBtn.addEventListener('click', (): void => {
-      const currentListItem = document.querySelector('.current-level');
-      currentListItem?.setAttribute('with-help', 'true');
+      const currentListItem = helpers.findElement<HTMLLIElement>('.current-level');
+      currentListItem.setAttribute('with-help', 'true');
       textarea.value = this.level.getSelector();
       typeSelector(textarea.value);
     });
@@ -302,7 +303,7 @@ class Page {
       if (selector.length === 0) {
         return;
       }
-      const elements = document.querySelectorAll(selector);
+      const elements = helpers.findElementCollections(selector);
       elements.forEach((el) => {
         if (el.closest('div')?.classList.contains('markup__item')
         || el.closest('div')?.classList.contains('markup__container')) {
@@ -341,9 +342,9 @@ class Page {
         const element = target as HTMLElement;
         if (element.closest('div')?.classList.contains('markup__item')
         || element.closest('div')?.classList.contains('picnic__item')) {
-          if (document.querySelectorAll('.selected-element') && document.querySelectorAll('.selected-markup')) {
-            const selectedElements = document.querySelectorAll('.selected-element');
-            const selectedMarkup = document.querySelectorAll('.selected-markup');
+          if (helpers.findElementCollections('.selected-element') && helpers.findElementCollections('.selected-markup')) {
+            const selectedElements = helpers.findElementCollections('.selected-element');
+            const selectedMarkup = helpers.findElementCollections('.selected-markup');
             selectedElements.forEach((el) => {
               el.classList.remove('selected-element');
               el.removeAttribute('tooltip');

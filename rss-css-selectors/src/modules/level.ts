@@ -3,6 +3,7 @@ import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from '../types/interfaces';
 import storage from './storage';
+import helpers from './helpers';
 
 hljs.registerLanguage('xml', xml);
 
@@ -19,22 +20,6 @@ class Level {
 
   private helpPassedLevelsArray: number[] = this.helpPassedLevels;
 
-  public static findElement<T extends Element>(selector: string) : T {
-    const element = document.querySelector<T>(selector);
-    if (!element) {
-      throw new Error(`Element for selector "${selector}" is not found`);
-    }
-    return element;
-  }
-
-  public static findElementCollections(selector: string): NodeListOf<Element> {
-    const collection = document.querySelectorAll(selector);
-    if (!collection) {
-      throw new Error(`Elements for selector "${selector}" is not found`);
-    }
-    return collection;
-  }
-
   public render(level: number): void {
     if (level > levelsConfig.length) {
       return;
@@ -42,29 +27,31 @@ class Level {
 
     const taskText = levelsConfig[level - 1].task;
 
-    const textarea = Level.findElement<HTMLTextAreaElement>('.textarea');
+    const textarea = helpers.findElement<HTMLTextAreaElement>('.textarea');
     textarea.value = '';
 
-    const textareaCode = Level.findElement<HTMLElement>('.textarea-markup__code');
+    const textareaCode = helpers.findElement<HTMLElement>('.textarea-markup__code');
     textareaCode.innerHTML = 'Type in a CSS selector';
 
-    const taskTitle = Level.findElement<HTMLHeadingElement>('.main-wrapper__task');
+    const taskTitle = helpers.findElement<HTMLHeadingElement>('.main-wrapper__task');
     taskTitle.innerHTML = taskText;
 
-    const picnic = Level.findElement<HTMLDivElement>('.picnic');
+    const picnic = helpers.findElement<HTMLDivElement>('.picnic');
     picnic.innerHTML = '';
 
-    const markup = Level.findElement<HTMLDivElement>('.markup');
+    const markup = helpers.findElement<HTMLDivElement>('.markup');
     markup.innerHTML = '';
 
     this.createHTML(levelsConfig[level - 1].html, picnic);
 
     this.createMarkup(levelsConfig[level - 1].html, markup);
+
     const currentlistItem = document.querySelector('.current-level');
     if (currentlistItem) {
       currentlistItem.classList.remove('current-level');
     }
-    const newCurrentlistItem: HTMLLIElement | null = document.querySelector(`li[level='${level}']`);
+
+    const newCurrentlistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
     newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
@@ -90,7 +77,7 @@ class Level {
   }
 
   public static shakeContainer() :void {
-    const codeContainer = Level.findElement<HTMLElement>('.code-container');
+    const codeContainer = helpers.findElement<HTMLElement>('.code-container');
     setTimeout(() => {
       codeContainer.classList.remove('shaking');
     }, 300);
@@ -104,7 +91,7 @@ class Level {
   }
 
   public moveToNextLevel() :void {
-    const passedLevellistItem: HTMLLIElement | null = document.querySelector(`li[level='${this.currentLevel}']`);
+    const passedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${this.currentLevel}']`);
     passedLevellistItem?.classList.add('passed-level');
 
     if (this.passedLevelsArray.includes(this.currentLevel)) {
@@ -136,8 +123,7 @@ class Level {
       Level.shakeContainer();
       return;
     }
-
-    const selectedELements: NodeListOf<Element> = document.querySelectorAll(value);
+    const selectedELements = helpers.findElementCollections(value);
 
     if (!selectedELements.length) {
       Level.shakeContainer();
@@ -277,8 +263,8 @@ class Level {
   }
 
   public resetProgress(): void {
-    const passedLevelsListItems = Level.findElementCollections('.passed-level');
-    const helpPassedLevelsListItems = Level.findElementCollections('[with-help = "true"]');
+    const passedLevelsListItems = helpers.findElementCollections('.passed-level');
+    const helpPassedLevelsListItems = helpers.findElementCollections('[with-help = "true"]');
 
     passedLevelsListItems.forEach((listItem) => {
       listItem.classList.remove('passed-level');
