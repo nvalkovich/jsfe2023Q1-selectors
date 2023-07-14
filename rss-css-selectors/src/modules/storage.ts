@@ -1,6 +1,6 @@
 const getLocalStorage = (key: string): string | null => localStorage.getItem(key);
 
-const parseLocalStorage = <T>(key: string): T | null => {
+export const parseLocalStorage = <T>(key: string): T | null => {
   const value = getLocalStorage(key);
   if (value === null) return value;
   try {
@@ -17,15 +17,9 @@ const setLocalStorage = (key: string, value: string): void => {
   );
 };
 
-const stringifyLocalStorage = <T>(key: string, value: T): void => {
+export const stringifyLocalStorage = <T>(key: string, value: T): void => {
   const string = JSON.stringify(value);
   setLocalStorage(key, string);
 };
 
-const clearLocalStorage = (): void => localStorage.clear();
-
-export default {
-  parseLocalStorage,
-  stringifyLocalStorage,
-  clearLocalStorage,
-};
+export const clearLocalStorage = (): void => localStorage.clear();

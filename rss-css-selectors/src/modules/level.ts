@@ -2,17 +2,17 @@ import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from '../types/interfaces';
-import storage from './storage';
-import helpers from './helpers';
+import { parseLocalStorage, stringifyLocalStorage, clearLocalStorage } from './storage';
+import { findElement, findElementCollections } from './helpers';
 
 hljs.registerLanguage('xml', xml);
 
 class Level {
-  private currentLevel = Number(storage.parseLocalStorage('level')) || 1;
+  private currentLevel = Number(parseLocalStorage('level')) || 1;
 
-  private passedLevels = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
+  private passedLevels = parseLocalStorage<number[]>('passedLevelsKey') || [];
 
-  private helpPassedLevels = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
+  private helpPassedLevels = parseLocalStorage<number[]>('helpPassedLevels') || [];
 
   private nesting = 0;
 
@@ -27,19 +27,19 @@ class Level {
 
     const taskText = levelsConfig[level - 1].task;
 
-    const textarea = helpers.findElement<HTMLTextAreaElement>('.textarea');
+    const textarea = findElement<HTMLTextAreaElement>('.textarea');
     textarea.value = '';
 
-    const textareaCode = helpers.findElement<HTMLElement>('.textarea-markup__code');
+    const textareaCode = findElement<HTMLElement>('.textarea-markup__code');
     textareaCode.innerHTML = 'Type in a CSS selector';
 
-    const taskTitle = helpers.findElement<HTMLHeadingElement>('.main-wrapper__task');
+    const taskTitle = findElement<HTMLHeadingElement>('.main-wrapper__task');
     taskTitle.innerHTML = taskText;
 
-    const picnic = helpers.findElement<HTMLDivElement>('.picnic');
+    const picnic = findElement<HTMLDivElement>('.picnic');
     picnic.innerHTML = '';
 
-    const markup = helpers.findElement<HTMLDivElement>('.markup');
+    const markup = findElement<HTMLDivElement>('.markup');
     markup.innerHTML = '';
 
     this.createHTML(levelsConfig[level - 1].html, picnic);
@@ -51,13 +51,13 @@ class Level {
       currentlistItem.classList.remove('current-level');
     }
 
-    const newCurrentlistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
+    const newCurrentlistItem = findElement<HTMLLIElement>(`li[level='${level}']`);
     newCurrentlistItem?.classList.add('current-level');
 
     this.currentLevel = level;
-    this.passedLevelsArray = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
-    this.helpPassedLevelsArray = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
-    storage.stringifyLocalStorage('level', this.currentLevel);
+    this.passedLevelsArray = parseLocalStorage<number[]>('passedLevelsKey') || [];
+    this.helpPassedLevelsArray = parseLocalStorage<number[]>('helpPassedLevels') || [];
+    stringifyLocalStorage('level', this.currentLevel);
   }
 
   public static shakeElement(element: Element) :void {
@@ -77,7 +77,7 @@ class Level {
   }
 
   public static shakeContainer() :void {
-    const codeContainer = helpers.findElement<HTMLElement>('.code-container');
+    const codeContainer = findElement<HTMLElement>('.code-container');
     setTimeout(() => {
       codeContainer.classList.remove('shaking');
     }, 300);
@@ -91,7 +91,7 @@ class Level {
   }
 
   public moveToNextLevel() :void {
-    const passedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${this.currentLevel}']`);
+    const passedLevellistItem = findElement<HTMLLIElement>(`li[level='${this.currentLevel}']`);
     passedLevellistItem?.classList.add('passed-level');
 
     if (this.passedLevelsArray.includes(this.currentLevel)) {
@@ -103,9 +103,9 @@ class Level {
     }
 
     this.passedLevelsArray.push(this.currentLevel);
-    storage.stringifyLocalStorage('helpPassedLevels', this.helpPassedLevelsArray);
-    storage.stringifyLocalStorage('passedLevelsKey', this.passedLevelsArray);
-    this.passedLevelsArray = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
+    stringifyLocalStorage('helpPassedLevels', this.helpPassedLevelsArray);
+    stringifyLocalStorage('passedLevelsKey', this.passedLevelsArray);
+    this.passedLevelsArray = parseLocalStorage<number[]>('passedLevelsKey') || [];
 
     this.currentLevel += 1;
 
@@ -123,7 +123,7 @@ class Level {
       Level.shakeContainer();
       return;
     }
-    const selectedELements = helpers.findElementCollections(value);
+    const selectedELements = findElementCollections(value);
 
     if (!selectedELements.length) {
       Level.shakeContainer();
@@ -263,8 +263,8 @@ class Level {
   }
 
   public resetProgress(): void {
-    const passedLevelsListItems = helpers.findElementCollections('.passed-level');
-    const helpPassedLevelsListItems = helpers.findElementCollections('[with-help = "true"]');
+    const passedLevelsListItems = findElementCollections('.passed-level');
+    const helpPassedLevelsListItems = findElementCollections('[with-help = "true"]');
 
     passedLevelsListItems.forEach((listItem) => {
       listItem.classList.remove('passed-level');
@@ -274,8 +274,8 @@ class Level {
       listItem.removeAttribute('with-help');
     });
 
-    storage.clearLocalStorage();
-    this.render(Number(storage.parseLocalStorage('level') || 1));
+    clearLocalStorage();
+    this.render(Number(parseLocalStorage('level') || 1));
   }
 
   public win(): void {

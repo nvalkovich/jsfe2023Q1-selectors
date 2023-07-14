@@ -2,24 +2,24 @@ import hljs from 'highlight.js/lib/core';
 import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
-import storage from './storage';
-import helpers from './helpers';
+import { parseLocalStorage } from './storage';
+import { findElement, findElementCollections } from './helpers';
 
 hljs.registerLanguage('css', css);
 
 class Page {
   private readonly level: Level;
 
-  private passedLevels = storage.parseLocalStorage<number[]>('passedLevelsKey') || [];
+  private passedLevels = parseLocalStorage<number[]>('passedLevelsKey') || [];
 
-  private helpPassedLevel = storage.parseLocalStorage<number[]>('helpPassedLevels') || [];
+  private helpPassedLevel = parseLocalStorage<number[]>('helpPassedLevels') || [];
 
   constructor() {
     this.level = new Level();
   }
 
   public render(): void {
-    const body = helpers.findElement<HTMLBodyElement>('body');
+    const body = findElement<HTMLBodyElement>('body');
 
     const mainWrapper: HTMLDivElement = document.createElement('div');
     mainWrapper.className = 'main-wrapper';
@@ -205,12 +205,12 @@ class Page {
     }
 
     this.passedLevels.forEach((level) => {
-      const passedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
+      const passedLevellistItem = findElement<HTMLLIElement>(`li[level='${level}']`);
       passedLevellistItem.classList.add('passed-level');
     });
 
     this.helpPassedLevel.forEach((level) => {
-      const helpPassedLevellistItem = helpers.findElement<HTMLLIElement>(`li[level='${level}']`);
+      const helpPassedLevellistItem = findElement<HTMLLIElement>(`li[level='${level}']`);
       helpPassedLevellistItem?.setAttribute('with-help', 'true');
     });
 
@@ -279,7 +279,7 @@ class Page {
     };
 
     helpBtn.addEventListener('click', (): void => {
-      const currentListItem = helpers.findElement<HTMLLIElement>('.current-level');
+      const currentListItem = findElement<HTMLLIElement>('.current-level');
       currentListItem.setAttribute('with-help', 'true');
       textarea.value = this.level.getSelector();
       typeSelector(textarea.value);
@@ -300,10 +300,10 @@ class Page {
     };
 
     const selectElements = (container: HTMLElement, selector: string): void => {
-      if (selector.length) {
+      if (!selector.length) {
         return;
       }
-      const elements = helpers.findElementCollections(selector);
+      const elements = findElementCollections(selector);
       elements.forEach((el) => {
         if (el.closest('div')?.classList.contains('markup__item')
         || el.closest('div')?.classList.contains('markup__container')) {
@@ -342,9 +342,9 @@ class Page {
         const element = target as HTMLElement;
         if (element.closest('div')?.classList.contains('markup__item')
         || element.closest('div')?.classList.contains('picnic__item')) {
-          if (helpers.findElementCollections('.selected-element') && helpers.findElementCollections('.selected-markup')) {
-            const selectedElements = helpers.findElementCollections('.selected-element');
-            const selectedMarkup = helpers.findElementCollections('.selected-markup');
+          if (findElementCollections('.selected-element') && findElementCollections('.selected-markup')) {
+            const selectedElements = findElementCollections('.selected-element');
+            const selectedMarkup = findElementCollections('.selected-markup');
             selectedElements.forEach((el) => {
               el.classList.remove('selected-element');
               el.removeAttribute('tooltip');
