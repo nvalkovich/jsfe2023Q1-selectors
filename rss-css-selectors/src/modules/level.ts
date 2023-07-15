@@ -3,7 +3,7 @@ import xml from 'highlight.js/lib/languages/xml';
 import levelsConfig from './levelsConfig';
 import { Markup, Attributes } from '../types/interfaces';
 import { parseLocalStorage, stringifyLocalStorage, clearLocalStorage } from './storage';
-import { findElement, findElementCollections } from './helpers';
+import { createBlock, findElement, findElementCollections } from './helpers';
 
 hljs.registerLanguage('xml', xml);
 
@@ -279,32 +279,18 @@ class Level {
   }
 
   public win(): void {
-    const popupWrapper = document.createElement('div');
-    popupWrapper.className = 'popup-wrapper popup-wrapper_active';
+    const popupWrapper = createBlock('div', 'popup-wrapper popup-wrapper_active', null);
     document.body.append(popupWrapper);
 
-    const popupContainer = document.createElement('div');
-    popupContainer.className = 'popup-container';
-    popupWrapper.append(popupContainer);
+    const popupContainer = createBlock('div', 'popup-container', null, popupWrapper);
 
-    const popupContent = document.createElement('div');
-    popupContent.className = 'popup-container__content popup-content';
-    popupContainer.append(popupContent);
+    const popupContent = createBlock('div', 'popup-container__content popup-content', null, popupContainer);
 
-    const popupCongratulations = document.createElement('h3');
-    popupCongratulations.className = 'popup-content__congratulations';
-    popupCongratulations.textContent = 'Congratulations!';
-    popupContent.append(popupCongratulations);
+    const popupCongratulations = createBlock('h3', 'popup-content__congratulations', 'Congratulations!', popupContent);
 
-    const popupMessage = document.createElement('h3');
-    popupMessage.className = 'popup-content__message';
-    popupMessage.textContent = 'You have found all selectors';
-    popupContent.append(popupMessage);
+    const popupMessage = createBlock('h3', 'popup-content__message', 'You have found all selectors', popupContent);
 
-    const popupBtn = document.createElement('button');
-    popupBtn.className = 'popup-content__btn';
-    popupContent.append(popupBtn);
-    popupBtn.innerText = 'Train again';
+    const popupBtn = createBlock('button', 'popup-content__btn', 'Train again', popupContent);
 
     if (popupBtn) {
       popupBtn.addEventListener('click', (): void => {

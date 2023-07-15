@@ -13,3 +13,22 @@ export const findElementCollections = (selector: string): NodeListOf<Element> =>
   }
   return collection;
 };
+
+export const createBlock = <K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  className?: string | null,
+  innerHTML?: string | null,
+  parentBlock?: HTMLElement,
+): HTMLElementTagNameMap[K] => {
+  const block = document.createElement(tag);
+  if (className) {
+    block.className = className;
+  }
+  if (innerHTML) {
+    block.innerHTML = innerHTML;
+  }
+  if (parentBlock) {
+    parentBlock.append(block);
+  }
+  return block;
+};

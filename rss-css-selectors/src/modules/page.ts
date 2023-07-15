@@ -3,7 +3,7 @@ import css from 'highlight.js/lib/languages/css';
 import levelsConfig from './levelsConfig';
 import Level from './level';
 import { parseLocalStorage } from './storage';
-import { findElement, findElementCollections } from './helpers';
+import { findElement, findElementCollections, createBlock } from './helpers';
 
 hljs.registerLanguage('css', css);
 
@@ -21,131 +21,65 @@ class Page {
   public render(): void {
     const body = findElement<HTMLBodyElement>('body');
 
-    const mainWrapper: HTMLDivElement = document.createElement('div');
-    mainWrapper.className = 'main-wrapper';
-    body.append(mainWrapper);
+    const mainWrapper = createBlock('div', 'main-wrapper', null, body);
 
-    const header: HTMLElement = document.createElement('header');
-    header.className = 'main-wrapper__header header';
-    mainWrapper.append(header);
+    const header = createBlock('header', 'main-wrapper__header header', null, mainWrapper);
 
-    const headerLogo: HTMLHeadingElement = document.createElement('h1');
-    headerLogo.className = 'header__logo';
-    headerLogo.innerHTML = 'CSS Picnic';
-    header.append(headerLogo);
+    const headerLogo = createBlock('h1', 'header__logo', 'CSS Picnic', header);
 
-    const task: HTMLHeadingElement = document.createElement('h2');
-    task.className = 'main-wrapper__task';
-    mainWrapper.append(task);
+    const task = createBlock('h2', 'main-wrapper__task', null, mainWrapper);
 
-    const helpBtn: HTMLDivElement = document.createElement('div');
-    helpBtn.className = 'main-wrapper__btn-help';
-    helpBtn.innerHTML = 'Help';
-    mainWrapper.append(helpBtn);
+    const helpBtn = createBlock('div', 'main-wrapper__btn-help', 'Help', mainWrapper);
 
-    const picnic: HTMLDivElement = document.createElement('div');
-    picnic.className = 'main-wrapper__picnic picnic';
-    mainWrapper.append(picnic);
+    const picnic = createBlock('div', 'main-wrapper__picnic picnic', null, mainWrapper);
 
-    const codeWrapper: HTMLDivElement = document.createElement('div');
-    codeWrapper.className = 'main-wrapper__code-wrapper';
-    mainWrapper.append(codeWrapper);
+    const codeWrapper = createBlock('div', 'main-wrapper__code-wrapper', null, mainWrapper);
 
-    const codeContainer: HTMLDivElement = document.createElement('div');
-    codeContainer.className = 'code-container';
-    codeWrapper.append(codeContainer);
+    const codeContainer = createBlock('div', 'code-container', null, codeWrapper);
 
-    const cssEditor: HTMLDivElement = document.createElement('div');
-    cssEditor.className = 'code-container__item css-editor';
-    codeContainer.append(cssEditor);
+    const cssEditor = createBlock('div', 'code-container__item css-editor', null, codeContainer);
 
-    const cssEditorHeader: HTMLDivElement = document.createElement('div');
-    cssEditorHeader.className = 'css-editor__header code-header';
-    cssEditor.append(cssEditorHeader);
+    const cssEditorHeader = createBlock('div', 'css-editor__header code-header', null, cssEditor);
 
-    const cssEditorHeaderTitle: HTMLParagraphElement = document.createElement('p');
-    cssEditorHeaderTitle.className = 'light-text';
-    cssEditorHeaderTitle.innerText = 'CSS Editor';
-    cssEditorHeader.append(cssEditorHeaderTitle);
+    const cssEditorHeaderTitle = createBlock('p', 'light-text', 'CSS Editor', cssEditorHeader);
 
-    const cssEditorHeaderLang: HTMLParagraphElement = document.createElement('p');
-    cssEditorHeaderLang.innerText = 'style.css';
-    cssEditorHeader.append(cssEditorHeaderLang);
+    const cssEditorHeaderLang = createBlock('p', null, 'style.css', cssEditorHeader);
 
-    const cssEditorContent: HTMLDivElement = document.createElement('div');
-    cssEditorContent.className = 'css-editor__content code-content';
-    cssEditor.append(cssEditorContent);
+    const cssEditorContent = createBlock('div', 'css-editor__content code-content', null, cssEditor);
 
-    const cssContentLineNumbers: HTMLDivElement = document.createElement('div');
-    cssContentLineNumbers.className = 'code-content__line-numbers line-numbers line-numbers_css';
-    cssEditorContent.append(cssContentLineNumbers);
+    const cssContentLineNumbers = createBlock('div', 'code-content__line-numbers line-numbers line-numbers_css', null, cssEditorContent);
 
-    const cssEditField: HTMLDivElement = document.createElement('div');
-    cssEditField.className = 'code-content__code css-edit-field';
-    cssEditorContent.append(cssEditField);
+    const cssEditField = createBlock('div', 'code-content__code css-edit-field', null, cssEditorContent);
 
-    const textareaField: HTMLDivElement = document.createElement('div');
-    textareaField.className = 'css-edit-field__textarea-field textarea-field ';
-    cssEditField.append(textareaField);
+    const textareaField = createBlock('div', 'css-edit-field__textarea-field textarea-field', null, cssEditField);
 
-    const textareaContainer: HTMLDivElement = document.createElement('div');
-    textareaContainer.className = 'textarea-field__textarea-container textarea-container';
-    textareaField.append(textareaContainer);
+    const textareaContainer = createBlock('div', 'textarea-field__textarea-container textarea-container', null, textareaField);
 
-    const textarea: HTMLTextAreaElement = document.createElement('textarea');
-    textarea.className = 'textarea-container__textarea textarea';
-    textareaContainer.append(textarea);
+    const textarea = createBlock('textarea', 'textarea-container__textarea textarea', null, textareaContainer);
 
-    const textareaMarkup: HTMLDivElement = document.createElement('div');
-    textareaMarkup.className = 'textarea-container__textarea-markup textarea-markup';
-    textareaContainer.append(textareaMarkup);
+    const textareaMarkup = createBlock('div', 'textarea-container__textarea-markup textarea-markup', null, textareaContainer);
 
-    const textareaPre = document.createElement('pre');
-    textareaPre.className = 'textarea-markup__pre';
-    textareaMarkup.append(textareaPre);
+    const textareaPre = createBlock('pre', 'textarea-markup__pre', null, textareaMarkup);
 
-    const textareaCode = document.createElement('code');
-    textareaCode.className = 'textarea-markup__code';
-    textareaCode.innerHTML = 'Type in a CSS selector';
-    textareaPre.append(textareaCode);
+    const textareaCode = createBlock('code', 'textarea-markup__code', 'Type in a CSS selector', textareaPre);
 
-    const textareaBtn: HTMLDivElement = document.createElement('div');
-    textareaBtn.innerHTML = 'Enter';
-    textareaBtn.className = 'textarea-field__btn';
-    textareaField.append(textareaBtn);
+    const textareaBtn = createBlock('div', 'textarea-field__btn', 'Enter', textareaField);
 
-    const htmlViewer: HTMLDivElement = document.createElement('div');
-    htmlViewer.className = 'code-container__item html-viewer';
-    codeContainer.append(htmlViewer);
+    const htmlViewer = createBlock('div', 'code-container__item html-viewer', null, codeContainer);
 
-    const htmlViewerHeader: HTMLDivElement = document.createElement('div');
-    htmlViewerHeader.className = 'html-viewer__header code-header';
-    htmlViewer.append(htmlViewerHeader);
+    const htmlViewerHeader = createBlock('div', 'html-viewer__header code-header', null, htmlViewer);
 
-    const htmlViewerHeaderTitle: HTMLParagraphElement = document.createElement('p');
-    htmlViewerHeaderTitle.className = 'light-text';
-    htmlViewerHeaderTitle.innerText = 'HTML Viewer';
-    htmlViewerHeader.append(htmlViewerHeaderTitle);
+    const htmlViewerHeaderTitle = createBlock('p', 'light-text', 'HTML Viewer', htmlViewerHeader);
 
-    const htmlViewerHeaderLang: HTMLParagraphElement = document.createElement('p');
-    htmlViewerHeaderLang.innerText = 'table.html';
-    htmlViewerHeader.append(htmlViewerHeaderLang);
+    const htmlViewerHeaderLang = createBlock('p', null, 'table.html', htmlViewerHeader);
 
-    const htmlViewerContent: HTMLDivElement = document.createElement('div');
-    htmlViewerContent.className = 'html-viewer__content code-content';
-    htmlViewer.append(htmlViewerContent);
+    const htmlViewerContent = createBlock('div', 'html-viewer__content code-content', null, htmlViewer);
 
-    const htmlViewerLineNumbers: HTMLDivElement = document.createElement('div');
-    htmlViewerLineNumbers.className = 'code-content__line-numbers line-numbers line-numbers_html';
-    htmlViewerContent.append(htmlViewerLineNumbers);
+    const htmlViewerLineNumbers = createBlock('div', 'code-content__line-numbers line-numbers line-numbers_html', null, htmlViewerContent);
 
-    const htmlViewField: HTMLDivElement = document.createElement('div');
-    htmlViewField.className = 'code-content__code html-view-field';
-    htmlViewerContent.append(htmlViewField);
+    const htmlViewField = createBlock('div', 'code-content__code html-view-field', null, htmlViewerContent);
 
-    const markup: HTMLDivElement = document.createElement('div');
-    markup.className = 'markup';
-    htmlViewField.append(markup);
+    const markup = createBlock('div', 'markup', null, htmlViewField);
 
     const basicLinesAmount = 20;
     for (let i = 1; i <= basicLinesAmount; i += 1) {
@@ -153,54 +87,30 @@ class Page {
       htmlViewerLineNumbers.innerHTML += `${i}<br>`;
     }
 
-    const footer: HTMLElement = document.createElement('footer');
-    footer.className = 'main-wrapper__footer footer';
-    mainWrapper.append(footer);
+    const footer = createBlock('footer', 'main-wrapper__footer footer', null, mainWrapper);
 
-    const footerContent: HTMLDivElement = document.createElement('div');
-    footerContent.className = 'footer__content footer-content';
-    footerContent.innerText = 'Made by ';
-    footer.append(footerContent);
+    const footerContent = createBlock('div', 'footer__content footer-content', 'Made by ', footer);
 
-    const footerGuthubLink: HTMLAnchorElement = document.createElement('a');
-    footerGuthubLink.className = 'link  link_gh';
+    const footerGuthubLink = createBlock('a', 'link  link_gh', '@nvalkovich', footerContent);
     footerGuthubLink.href = 'https://github.com/nvalkovich';
-    footerGuthubLink.innerText = '@nvalkovich';
-    footerContent.append(footerGuthubLink);
 
-    const footerRSSLinkContainer: HTMLDivElement = document.createElement('div');
-    footerRSSLinkContainer.className = 'footer-content__rss-link-container rss-link-container';
-    footerContent.append(footerRSSLinkContainer);
+    const footerRSSLinkContainer = createBlock('div', 'footer-content__rss-link-container rss-link-container', null, footerContent);
 
-    const footerRSSLink: HTMLAnchorElement = document.createElement('a');
-    footerRSSLink.className = 'rss-link-container__link link rss-link';
+    const footerRSSLink = createBlock('a', 'rss-link-container__link link rss-link', null, footerRSSLinkContainer);
     footerRSSLink.href = 'https://rs.school/js/';
-    footerRSSLinkContainer.append(footerRSSLink);
 
-    const levelsWrapper: HTMLDivElement = document.createElement('div');
-    levelsWrapper.className = 'levels-wrapper';
-    mainWrapper.append(levelsWrapper);
+    const levelsWrapper = createBlock('div', 'levels-wrapper', null, mainWrapper);
 
-    const levelsContainer: HTMLDivElement = document.createElement('div');
-    levelsContainer.className = 'levels';
-    levelsWrapper.append(levelsContainer);
+    const levelsContainer = createBlock('div', 'levels', null, levelsWrapper);
 
-    const levelsTitle: HTMLHeadingElement = document.createElement('h2');
-    levelsTitle.className = 'levels__title';
-    levelsTitle.innerHTML = 'Levels';
-    levelsContainer.append(levelsTitle);
+    const levelsTitle = createBlock('h2', 'levels__title', 'Levels', levelsContainer);
 
-    const levelsList: HTMLUListElement = document.createElement('ul');
-    levelsList.className = 'levels__list levels-list';
-    levelsContainer.append(levelsList);
+    const levelsList = createBlock('ul', 'levels__list levels-list', null, levelsContainer);
 
     const levelsNumber: number = levelsConfig.length;
 
     for (let i = 0; i < levelsNumber; i += 1) {
-      const levelsItem: HTMLLIElement = document.createElement('li');
-      levelsItem.className = 'levels-list__item';
-      levelsItem.innerHTML += `Level ${levelsConfig[i].level}`;
-      levelsList.append(levelsItem);
+      const levelsItem = createBlock('li', 'levels-list__item', `Level ${levelsConfig[i].level}`, levelsList);
       levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
@@ -214,10 +124,7 @@ class Page {
       helpPassedLevellistItem?.setAttribute('with-help', 'true');
     });
 
-    const levelsResetBtn: HTMLDivElement = document.createElement('div');
-    levelsResetBtn.textContent = 'Reset';
-    levelsResetBtn.className = 'levels__btn';
-    levelsContainer.append(levelsResetBtn);
+    const levelsResetBtn = createBlock('div', 'levels__btn', 'Reset', levelsContainer);
 
     levelsResetBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;
