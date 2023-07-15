@@ -78,6 +78,7 @@ class Level {
 
   public static shakeContainer() :void {
     const codeContainer = findElement<HTMLElement>('.code-container');
+    codeContainer.classList.add('shaking');
     setTimeout(() => {
       codeContainer.classList.remove('shaking');
     }, 300);
