@@ -21,65 +21,191 @@ class Page {
   public render(): void {
     const body = findElement<HTMLBodyElement>('body');
 
-    const mainWrapper = createBlock('div', 'main-wrapper', null, body);
+    const mainWrapper = createBlock({
+      tag: 'div',
+      className: 'main-wrapper',
+      parentBlock: body,
+    });
 
-    const header = createBlock('header', 'main-wrapper__header header', null, mainWrapper);
+    const header = createBlock({
+      tag: 'header',
+      className: 'main-wrapper__header header',
+      parentBlock: mainWrapper,
+    });
 
-    const headerLogo = createBlock('h1', 'header__logo', 'CSS Picnic', header);
+    const headerLogo = createBlock({
+      tag: 'h1',
+      className: 'header__logo',
+      innerHTML: 'CSS Picnic',
+      parentBlock: header,
+    });
 
-    const task = createBlock('h2', 'main-wrapper__task', null, mainWrapper);
+    const task = createBlock({
+      tag: 'h2',
+      className: 'main-wrapper__task',
+      parentBlock: mainWrapper,
+    });
 
-    const helpBtn = createBlock('div', 'main-wrapper__btn-help', 'Help', mainWrapper);
+    const helpBtn = createBlock({
+      tag: 'div',
+      className: 'main-wrapper__btn-help',
+      innerHTML: 'Help',
+      parentBlock: mainWrapper,
+    });
 
-    const picnic = createBlock('div', 'main-wrapper__picnic picnic', null, mainWrapper);
+    const picnic = createBlock({
+      tag: 'div',
+      className: 'main-wrapper__picnic picnic',
+      parentBlock: mainWrapper,
+    });
 
-    const codeWrapper = createBlock('div', 'main-wrapper__code-wrapper', null, mainWrapper);
+    const codeWrapper = createBlock({
+      tag: 'div',
+      className: 'main-wrapper__code-wrapper',
+      parentBlock: mainWrapper,
+    });
 
-    const codeContainer = createBlock('div', 'code-container', null, codeWrapper);
+    const codeContainer = createBlock({
+      tag: 'div',
+      className: 'code-container',
+      parentBlock: codeWrapper,
+    });
 
-    const cssEditor = createBlock('div', 'code-container__item css-editor', null, codeContainer);
+    const cssEditor = createBlock({
+      tag: 'div',
+      className: 'code-container__item css-editor',
+      parentBlock: codeContainer,
+    });
 
-    const cssEditorHeader = createBlock('div', 'css-editor__header code-header', null, cssEditor);
+    const cssEditorHeader = createBlock({
+      tag: 'div',
+      className: 'css-editor__header code-header',
+      parentBlock: cssEditor,
+    });
 
-    const cssEditorHeaderTitle = createBlock('p', 'light-text', 'CSS Editor', cssEditorHeader);
+    const cssEditorHeaderTitle = createBlock({
+      tag: 'p',
+      className: 'light-text',
+      innerHTML: 'CSS Editor',
+      parentBlock: cssEditorHeader,
+    });
 
-    const cssEditorHeaderLang = createBlock('p', null, 'style.css', cssEditorHeader);
+    const cssEditorHeaderLang = createBlock({
+      tag: 'p',
+      innerHTML: 'style.css',
+      parentBlock: cssEditorHeader,
+    });
 
-    const cssEditorContent = createBlock('div', 'css-editor__content code-content', null, cssEditor);
+    const cssEditorContent = createBlock({
+      tag: 'div',
+      className: 'css-editor__content code-content',
+      parentBlock: cssEditor,
+    });
 
-    const cssContentLineNumbers = createBlock('div', 'code-content__line-numbers line-numbers line-numbers_css', null, cssEditorContent);
+    const cssContentLineNumbers = createBlock({
+      tag: 'div',
+      className: 'code-content__line-numbers line-numbers line-numbers_css',
+      parentBlock: cssEditorContent,
+    });
 
-    const cssEditField = createBlock('div', 'code-content__code css-edit-field', null, cssEditorContent);
+    const cssEditField = createBlock({
+      tag: 'div',
+      className: 'code-content__code css-edit-field',
+      parentBlock: cssEditorContent,
+    });
 
-    const textareaField = createBlock('div', 'css-edit-field__textarea-field textarea-field', null, cssEditField);
+    const textareaField = createBlock({
+      tag: 'div',
+      className: 'css-edit-field__textarea-field textarea-field',
+      parentBlock: cssEditField,
+    });
 
-    const textareaContainer = createBlock('div', 'textarea-field__textarea-container textarea-container', null, textareaField);
+    const textareaContainer = createBlock({
+      tag: 'div',
+      className: 'textarea-field__textarea-container textarea-container',
+      parentBlock: textareaField,
+    });
 
-    const textarea = createBlock('textarea', 'textarea-container__textarea textarea', null, textareaContainer);
+    const textarea = createBlock({
+      tag: 'textarea',
+      className: 'textarea-container__textarea textarea',
+      parentBlock: textareaContainer,
+    });
 
-    const textareaMarkup = createBlock('div', 'textarea-container__textarea-markup textarea-markup', null, textareaContainer);
+    const textareaMarkup = createBlock({
+      tag: 'div',
+      className: 'textarea-container__textarea-markup textarea-markup',
+      parentBlock: textareaContainer,
+    });
 
-    const textareaPre = createBlock('pre', 'textarea-markup__pre', null, textareaMarkup);
+    const textareaPre = createBlock({
+      tag: 'pre',
+      className: 'textarea-markup__pre',
+      parentBlock: textareaMarkup,
+    });
 
-    const textareaCode = createBlock('code', 'textarea-markup__code', 'Type in a CSS selector', textareaPre);
+    const textareaCode = createBlock({
+      tag: 'code',
+      className: 'textarea-markup__code',
+      innerHTML: 'Type in a CSS selector',
+      parentBlock: textareaPre,
+    });
 
-    const textareaBtn = createBlock('div', 'textarea-field__btn', 'Enter', textareaField);
+    const textareaBtn = createBlock({
+      tag: 'div',
+      className: 'textarea-field__btn',
+      innerHTML: 'Enter',
+      parentBlock: textareaField,
+    });
 
-    const htmlViewer = createBlock('div', 'code-container__item html-viewer', null, codeContainer);
+    const htmlViewer = createBlock({
+      tag: 'div',
+      className: 'code-container__item html-viewer',
+      parentBlock: codeContainer,
+    });
 
-    const htmlViewerHeader = createBlock('div', 'html-viewer__header code-header', null, htmlViewer);
+    const htmlViewerHeader = createBlock({
+      tag: 'div',
+      className: 'html-viewer__header code-header',
+      parentBlock: htmlViewer,
+    });
 
-    const htmlViewerHeaderTitle = createBlock('p', 'light-text', 'HTML Viewer', htmlViewerHeader);
+    const htmlViewerHeaderTitle = createBlock({
+      tag: 'p',
+      className: 'light-text',
+      innerHTML: 'HTML Viewer',
+      parentBlock: htmlViewerHeader,
+    });
 
-    const htmlViewerHeaderLang = createBlock('p', null, 'table.html', htmlViewerHeader);
+    const htmlViewerHeaderLang = createBlock({
+      tag: 'p',
+      innerHTML: 'table.html',
+      parentBlock: htmlViewerHeader,
+    });
 
-    const htmlViewerContent = createBlock('div', 'html-viewer__content code-content', null, htmlViewer);
+    const htmlViewerContent = createBlock({
+      tag: 'div',
+      className: 'html-viewer__content code-content',
+      parentBlock: htmlViewer,
+    });
 
-    const htmlViewerLineNumbers = createBlock('div', 'code-content__line-numbers line-numbers line-numbers_html', null, htmlViewerContent);
+    const htmlViewerLineNumbers = createBlock({
+      tag: 'div',
+      className: 'code-content__line-numbers line-numbers line-numbers_html',
+      parentBlock: htmlViewerContent,
+    });
 
-    const htmlViewField = createBlock('div', 'code-content__code html-view-field', null, htmlViewerContent);
+    const htmlViewField = createBlock({
+      tag: 'div',
+      className: 'code-content__code html-view-field',
+      parentBlock: htmlViewerContent,
+    });
 
-    const markup = createBlock('div', 'markup', null, htmlViewField);
+    const markup = createBlock({
+      tag: 'div',
+      className: 'markup',
+      parentBlock: htmlViewField,
+    });
 
     const basicLinesAmount = 20;
     for (let i = 1; i <= basicLinesAmount; i += 1) {
@@ -87,30 +213,74 @@ class Page {
       htmlViewerLineNumbers.innerHTML += `${i}<br>`;
     }
 
-    const footer = createBlock('footer', 'main-wrapper__footer footer', null, mainWrapper);
+    const footer = createBlock({
+      tag: 'footer',
+      className: 'main-wrapper__footer footer',
+      parentBlock: mainWrapper,
+    });
 
-    const footerContent = createBlock('div', 'footer__content footer-content', 'Made by ', footer);
+    const footerContent = createBlock({
+      tag: 'div',
+      className: 'footer__content footer-content',
+      innerHTML: 'Made by',
+      parentBlock: footer,
+    });
 
-    const footerGuthubLink = createBlock('a', 'link  link_gh', '@nvalkovich', footerContent);
+    const footerGuthubLink = createBlock({
+      tag: 'a',
+      className: 'link  link_gh',
+      innerHTML: '@nvalkovich',
+      parentBlock: footerContent,
+    });
     footerGuthubLink.href = 'https://github.com/nvalkovich';
 
-    const footerRSSLinkContainer = createBlock('div', 'footer-content__rss-link-container rss-link-container', null, footerContent);
+    const footerRSSLinkContainer = createBlock({
+      tag: 'div',
+      className: 'footer-content__rss-link-container rss-link-container',
+      parentBlock: footerContent,
+    });
 
-    const footerRSSLink = createBlock('a', 'rss-link-container__link link rss-link', null, footerRSSLinkContainer);
+    const footerRSSLink = createBlock({
+      tag: 'a',
+      className: 'rss-link-container__link link rss-link',
+      parentBlock: footerRSSLinkContainer,
+    });
     footerRSSLink.href = 'https://rs.school/js/';
 
-    const levelsWrapper = createBlock('div', 'levels-wrapper', null, mainWrapper);
+    const levelsWrapper = createBlock({
+      tag: 'div',
+      className: 'levels-wrapper',
+      parentBlock: mainWrapper,
+    });
 
-    const levelsContainer = createBlock('div', 'levels', null, levelsWrapper);
+    const levelsContainer = createBlock({
+      tag: 'div',
+      className: 'levels',
+      parentBlock: levelsWrapper,
+    });
 
-    const levelsTitle = createBlock('h2', 'levels__title', 'Levels', levelsContainer);
+    const levelsTitle = createBlock({
+      tag: 'h2',
+      className: 'levels__title',
+      innerHTML: 'Levels',
+      parentBlock: levelsContainer,
+    });
 
-    const levelsList = createBlock('ul', 'levels__list levels-list', null, levelsContainer);
+    const levelsList = createBlock({
+      tag: 'ul',
+      className: 'levels__list levels-list',
+      parentBlock: levelsContainer,
+    });
 
     const levelsNumber: number = levelsConfig.length;
 
     for (let i = 0; i < levelsNumber; i += 1) {
-      const levelsItem = createBlock('li', 'levels-list__item', `Level ${levelsConfig[i].level}`, levelsList);
+      const levelsItem = createBlock({
+        tag: 'li',
+        className: 'levels-list__item',
+        innerHTML: `Level ${levelsConfig[i].level}`,
+        parentBlock: levelsList,
+      });
       levelsItem.setAttribute('level', `${levelsConfig[i].level}`);
     }
 
@@ -124,7 +294,12 @@ class Page {
       helpPassedLevellistItem?.setAttribute('with-help', 'true');
     });
 
-    const levelsResetBtn = createBlock('div', 'levels__btn', 'Reset', levelsContainer);
+    const levelsResetBtn = createBlock({
+      tag: 'div',
+      className: 'levels__btn',
+      innerHTML: 'Reset',
+      parentBlock: levelsContainer,
+    });
 
     levelsResetBtn.addEventListener('click', (e: Event): void => {
       const { target } = e;

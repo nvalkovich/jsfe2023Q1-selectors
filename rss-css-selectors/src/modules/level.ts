@@ -314,18 +314,44 @@ class Level {
   }
 
   public win(): void {
-    const popupWrapper = createBlock('div', 'popup-wrapper popup-wrapper_active', null);
-    document.body.append(popupWrapper);
+    const popupWrapper = createBlock({
+      tag: 'div',
+      className: 'popup-wrapper popup-wrapper_active',
+      parentBlock: document.body,
+    });
 
-    const popupContainer = createBlock('div', 'popup-container', null, popupWrapper);
+    const popupContainer = createBlock({
+      tag: 'div',
+      className: 'popup-container',
+      parentBlock: popupWrapper,
+    });
 
-    const popupContent = createBlock('div', 'popup-container__content popup-content', null, popupContainer);
+    const popupContent = createBlock({
+      tag: 'div',
+      className: 'popup-container__content popup-content',
+      parentBlock: popupContainer,
+    });
 
-    const popupCongratulations = createBlock('h3', 'popup-content__congratulations', 'Congratulations!', popupContent);
+    const popupCongratulations = createBlock({
+      tag: 'h3',
+      className: 'popup-content__congratulations',
+      innerHTML: 'Congratulations!',
+      parentBlock: popupContent,
+    });
 
-    const popupMessage = createBlock('h3', 'popup-content__message', 'You have found all selectors', popupContent);
+    const popupMessage = createBlock({
+      tag: 'h3',
+      className: 'popup-content__message',
+      innerHTML: 'You have found all selectors',
+      parentBlock: popupContent,
+    });
 
-    const popupBtn = createBlock('button', 'popup-content__btn', 'Train again', popupContent);
+    const popupBtn = createBlock({
+      tag: 'button',
+      className: 'popup-content__btn',
+      innerHTML: 'Train again',
+      parentBlock: popupContent,
+    });
 
     if (popupBtn) {
       popupBtn.addEventListener('click', (): void => {
