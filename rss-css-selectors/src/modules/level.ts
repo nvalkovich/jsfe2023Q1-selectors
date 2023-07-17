@@ -8,17 +8,30 @@ import { createBlock, findElement, findElementCollections } from './helpers';
 hljs.registerLanguage('xml', xml);
 
 class Level {
-  private currentLevel = Number(parseLocalStorage('level')) || 1;
-
-  private passedLevels = parseLocalStorage<number[]>('passedLevelsKey') || [];
-
-  private helpPassedLevels = parseLocalStorage<number[]>('helpPassedLevels') || [];
+  private currentLevel = this.getLevel();
 
   private nesting = 0;
 
-  private passedLevelsArray: number[] = this.passedLevels;
+  private passedLevelsArray: number[] = this.getPassedLevelsArray();
 
-  private helpPassedLevelsArray: number[] = this.helpPassedLevels;
+  private helpPassedLevelsArray: number[] = this.getHelpPassedLevelsArray();
+
+  public getPassedLevelsArray(): number[] {
+    return parseLocalStorage<number[]>('passedLevelsKey') || [];
+  }
+
+  public getHelpPassedLevelsArray(): number[] {
+    return parseLocalStorage<number[]>('helpPassedLevels') || [];
+  }
+
+  public getLevel(): number {
+    return Number(parseLocalStorage('level')) || 1;
+  }
+
+  public setCurrentLevel(level: number): void {
+    this.currentLevel = level || 1;
+    stringifyLocalStorage('level', this.currentLevel);
+  }
 
   public render(level: number): void {
     if (level > levelsConfig.length) {
@@ -54,10 +67,9 @@ class Level {
     const newCurrentlistItem = findElement<HTMLLIElement>(`li[level='${level}']`);
     newCurrentlistItem?.classList.add('current-level');
 
-    this.currentLevel = level;
-    this.passedLevelsArray = parseLocalStorage<number[]>('passedLevelsKey') || [];
-    this.helpPassedLevelsArray = parseLocalStorage<number[]>('helpPassedLevels') || [];
-    stringifyLocalStorage('level', this.currentLevel);
+    this.setCurrentLevel(level);
+    this.passedLevelsArray = this.getPassedLevelsArray();
+    this.helpPassedLevelsArray = this.getHelpPassedLevelsArray();
   }
 
   public static shakeElement(element: Element) :void {
@@ -91,11 +103,16 @@ class Level {
     }, 300);
   }
 
+  public isLevelPassed(level: number): boolean {
+    this.passedLevelsArray = this.getPassedLevelsArray();
+    return this.passedLevelsArray.includes(level);
+  }
+
   public moveToNextLevel() :void {
     const passedLevellistItem = findElement<HTMLLIElement>(`li[level='${this.currentLevel}']`);
     passedLevellistItem?.classList.add('passed-level');
 
-    if (this.passedLevelsArray.includes(this.currentLevel)) {
+    if (this.isLevelPassed(this.currentLevel)) {
       return;
     }
 
@@ -106,7 +123,7 @@ class Level {
     this.passedLevelsArray.push(this.currentLevel);
     stringifyLocalStorage('helpPassedLevels', this.helpPassedLevelsArray);
     stringifyLocalStorage('passedLevelsKey', this.passedLevelsArray);
-    this.passedLevelsArray = parseLocalStorage<number[]>('passedLevelsKey') || [];
+    this.passedLevelsArray = this.getPassedLevelsArray();
 
     this.currentLevel += 1;
 
@@ -117,6 +134,18 @@ class Level {
     } else {
       this.win();
     }
+  }
+
+  public getCurrentConfigIndex(): number {
+    return levelsConfig.length >= this.currentLevel ? this.currentLevel - 1 : 0;
+  }
+
+  public getSelector(): string {
+    return levelsConfig[this.getCurrentConfigIndex()]?.selector;
+  }
+
+  public getGoalElementsNum(): number {
+    return levelsConfig[this.getCurrentConfigIndex()]?.goalElementsNumber;
   }
 
   public checkSelector(value: string): void {
@@ -141,8 +170,8 @@ class Level {
     }
 
     if ((activeELements.length === selectedELements.length
-        && selectedELements.length === levelsConfig[this.currentLevel - 1]?.goalElementsNumber)
-        || value === levelsConfig[this.currentLevel - 1]?.selector) {
+        && selectedELements.length === this.getGoalElementsNum())
+        || value === this.getSelector()) {
       activeELements.forEach((el: Element) => {
         Level.increaseGoalElement(el);
       });
@@ -222,34 +251,43 @@ class Level {
     }
   }
 
-  private createMarkup(data: Markup, parent: HTMLElement): void {
+  public createTag(data: Markup): string {
     const config = Object.keys(data);
 
-    let content = '';
-    content += `<${data.element}`;
+    let tag = `<${data.element}`;
     if (config.includes('toWiev')) {
       if (data.toWiev?.selector === 'className') {
-        content += ` class="${data.toWiev?.value}"`;
+        tag += ` class="${data.toWiev?.value}"`;
       }
       if (data.toWiev?.selector === 'id') {
-        content += ` id="${data.toWiev?.value}"`;
+        tag += ` id="${data.toWiev?.value}"`;
       }
       if (data.toWiev?.selector === 'attributes') {
-        content += ` ${data.toWiev?.value}`;
+        tag += ` ${data.toWiev?.value}`;
       }
     }
 
+    if (data.children) {
+      tag += '>';
+    } else if (!data.children) {
+      tag += '/>';
+    }
+
+    return tag;
+  }
+
+  private createMarkup(data: Markup, parent: HTMLElement): void {
     const container = document.createElement('div');
     parent.append(container);
 
+    const content = this.createTag(data);
+
     if (data.children) {
-      content += '>';
       this.addMarkupItem(content, container, Boolean(data.children), false, data.commonAtributes);
       data.children.forEach((child) => {
         this.createMarkup(child, container);
       });
     } else if (!data.children) {
-      content += '/>';
       this.addMarkupItem(content, container, Boolean(data.children), false, data.commonAtributes);
     }
 
@@ -257,10 +295,6 @@ class Level {
       const closedContent = `</${data.element}>`;
       this.addMarkupItem(closedContent, container, false, true, data.commonAtributes);
     }
-  }
-
-  public getSelector(): string {
-    return levelsConfig[this.currentLevel - 1].selector;
   }
 
   public resetProgress(): void {
@@ -276,7 +310,7 @@ class Level {
     });
 
     clearLocalStorage();
-    this.render(Number(parseLocalStorage('level') || 1));
+    this.render(this.getLevel());
   }
 
   public win(): void {

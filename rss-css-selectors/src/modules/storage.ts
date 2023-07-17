@@ -1,4 +1,4 @@
-const getLocalStorage = (key: string): string | null => localStorage.getItem(key);
+export const getLocalStorage = (key: string): string | null => localStorage.getItem(key);
 
 export const parseLocalStorage = <T>(key: string): T | null => {
   const value = getLocalStorage(key);
@@ -6,11 +6,11 @@ export const parseLocalStorage = <T>(key: string): T | null => {
   try {
     return JSON.parse(value);
   } catch (e) {
-    throw new Error();
+    return null;
   }
 };
 
-const setLocalStorage = (key: string, value: string): void => {
+export const setLocalStorage = (key: string, value: string): void => {
   localStorage.setItem(
     key,
     value,

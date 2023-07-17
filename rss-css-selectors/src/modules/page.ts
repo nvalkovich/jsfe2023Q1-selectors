@@ -140,8 +140,17 @@ class Page {
       }
     });
 
+    const setTextareaValue = (string?: string): void => {
+      const content = string || textarea.value;
+      textareaCode.innerHTML = hljs.highlight(
+        content,
+        {
+          language: 'css',
+        },
+      ).value;
+    };
+
     const createCssMarkup = ():void => {
-      textareaCode.innerHTML = '';
       textareaCode.innerHTML = hljs.highlight(
         textarea.value,
         {
@@ -173,12 +182,7 @@ class Page {
           clearInterval(addChar);
         } else {
           result += splittedValue[i];
-          textareaCode.innerHTML = hljs.highlight(
-            result,
-            {
-              language: 'css',
-            },
-          ).value;
+          setTextareaValue(result);
           i += 1;
         }
         textarea.value = result;
