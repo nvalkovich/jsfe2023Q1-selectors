@@ -59,11 +59,6 @@ class Level {
 
     this.createMarkup(levelsConfig[level - 1].html, markup);
 
-    const currentlistItem = document.querySelector('.current-level');
-    if (currentlistItem) {
-      currentlistItem.classList.remove('current-level');
-    }
-
     const newCurrentlistItem = findElement<HTMLLIElement>(`li[level='${level}']`);
     newCurrentlistItem?.classList.add('current-level');
 
@@ -103,6 +98,13 @@ class Level {
     }, 300);
   }
 
+  public removeCurrentLevel(): void {
+    const currentlistItem = findElement<HTMLLIElement>('.current-level');
+    if (currentlistItem) {
+      currentlistItem.classList.remove('current-level');
+    }
+  }
+
   public isLevelPassed(level: number): boolean {
     this.passedLevelsArray = this.getPassedLevelsArray();
     return this.passedLevelsArray.includes(level);
@@ -128,6 +130,7 @@ class Level {
     this.currentLevel += 1;
 
     if (this.passedLevelsArray.length < levelsConfig.length) {
+      this.removeCurrentLevel();
       setTimeout(() => {
         this.render(this.currentLevel);
       }, 700);
@@ -310,6 +313,7 @@ class Level {
     });
 
     clearLocalStorage();
+    this.removeCurrentLevel();
     this.render(this.getLevel());
   }
 

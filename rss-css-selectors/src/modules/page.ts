@@ -451,6 +451,7 @@ class Page {
       if (
         target instanceof HTMLElement && target.classList.contains('levels-list__item')
       ) {
+        this.level.removeCurrentLevel();
         this.level.render(Number(target.getAttribute('level')));
       }
     });
