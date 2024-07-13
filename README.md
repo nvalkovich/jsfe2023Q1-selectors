@@ -1,5 +1,5 @@
 1. [Task](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/rs-css.md)
-2. [Deploy](https://rolling-scopes-school.github.io/nvalkovich-JSFE2023Q1/)
+2. [Deploy](https://nvalkovich-css-selectors.netlify.app/)
 3. Screenshot:
 ![image](https://github.com/user-attachments/assets/899c3f97-805a-4a78-afe0-acdd123e3106)
 
